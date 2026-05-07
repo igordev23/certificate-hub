@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Award, FileText, Send, ShieldCheck, Plus } from "lucide-react";
-import { db } from "@/lib/mock-data";
+import { Award, FileText, Send, ShieldCheck, Plus, Loader2 } from "lucide-react";
+import { api, isExpired, envios } from "@/lib/api";
 import { PageHeader } from "@/components/PageHeader";
 import { useEffect, useState } from "react";
 
@@ -10,21 +10,28 @@ export const Route = createFileRoute("/_app/dashboard")({
 
 function Dashboard() {
   const [stats, setStats] = useState({ certs: 0, ativos: 0, templates: 0, envios: 0 });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    const certs = db.getCertificados();
-    setStats({
-      certs: certs.length,
-      ativos: certs.filter((c) => c.status === "ativo").length,
-      templates: db.getTemplates().length,
-      envios: db.getEnvios().length,
-    });
+    Promise.all([api.listCertificates(), api.listTemplates()])
+      .then(([certs, tpls]) => {
+        setStats({
+          certs: certs.length,
+          ativos: certs.filter((c) => !isExpired(c.validityDate)).length,
+          templates: tpls.length,
+          envios: envios.list().length,
+        });
+      })
+      .catch((e) => setError((e as Error).message))
+      .finally(() => setLoading(false));
   }, []);
 
   const cards = [
     { label: "Certificados emitidos", value: stats.certs, icon: Award, color: "text-primary" },
     { label: "Certificados ativos", value: stats.ativos, icon: ShieldCheck, color: "text-success" },
     { label: "Templates", value: stats.templates, icon: FileText, color: "text-primary" },
-    { label: "E-mails enviados", value: stats.envios, icon: Send, color: "text-warning" },
+    { label: "E-mails registrados", value: stats.envios, icon: Send, color: "text-warning" },
   ];
 
   return (
@@ -38,15 +45,20 @@ function Dashboard() {
           </Link>
         }
       />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {cards.map((c) => (
-          <div key={c.label} className="bg-card border border-border rounded-xl p-5" style={{ boxShadow: "var(--shadow-card)" }}>
-            <c.icon className={`w-5 h-5 ${c.color}`} />
-            <div className="text-3xl font-bold mt-3">{c.value}</div>
-            <div className="text-sm text-muted-foreground mt-1">{c.label}</div>
-          </div>
-        ))}
-      </div>
+      {error && <div className="bg-destructive/5 border border-destructive/30 rounded-xl p-4 mb-4 text-sm text-destructive">Erro ao carregar dados: {error}</div>}
+      {loading ? (
+        <div className="text-center py-12 text-muted-foreground"><Loader2 className="w-5 h-5 animate-spin inline" /> Carregando...</div>
+      ) : (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {cards.map((c) => (
+            <div key={c.label} className="bg-card border border-border rounded-xl p-5" style={{ boxShadow: "var(--shadow-card)" }}>
+              <c.icon className={`w-5 h-5 ${c.color}`} />
+              <div className="text-3xl font-bold mt-3">{c.value}</div>
+              <div className="text-sm text-muted-foreground mt-1">{c.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="mt-8 grid md:grid-cols-2 gap-4">
         <Link to="/templates" className="bg-card border border-border rounded-xl p-6 hover:border-primary transition-colors">
@@ -57,7 +69,7 @@ function Dashboard() {
         <Link to="/certificados" className="bg-card border border-border rounded-xl p-6 hover:border-primary transition-colors">
           <Award className="w-6 h-6 text-primary" />
           <h3 className="font-semibold mt-3">Ver certificados</h3>
-          <p className="text-sm text-muted-foreground mt-1">Liste, edite validade e reenvie por e-mail.</p>
+          <p className="text-sm text-muted-foreground mt-1">Liste, edite validade e baixe PDFs.</p>
         </Link>
       </div>
     </div>
