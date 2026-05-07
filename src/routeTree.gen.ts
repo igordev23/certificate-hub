@@ -9,38 +9,137 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerificarRouteImport } from './routes/verificar'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppTemplatesRouteImport } from './routes/_app.templates'
+import { Route as AppEnviosRouteImport } from './routes/_app.envios'
+import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
+import { Route as AppCertificadosIndexRouteImport } from './routes/_app.certificados.index'
+import { Route as AppCertificadosNovoRouteImport } from './routes/_app.certificados.novo'
 
+const VerificarRoute = VerificarRouteImport.update({
+  id: '/verificar',
+  path: '/verificar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppTemplatesRoute = AppTemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEnviosRoute = AppEnviosRouteImport.update({
+  id: '/envios',
+  path: '/envios',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCertificadosIndexRoute = AppCertificadosIndexRouteImport.update({
+  id: '/certificados/',
+  path: '/certificados/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCertificadosNovoRoute = AppCertificadosNovoRouteImport.update({
+  id: '/certificados/novo',
+  path: '/certificados/novo',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/verificar': typeof VerificarRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/envios': typeof AppEnviosRoute
+  '/templates': typeof AppTemplatesRoute
+  '/certificados/novo': typeof AppCertificadosNovoRoute
+  '/certificados/': typeof AppCertificadosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/verificar': typeof VerificarRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/envios': typeof AppEnviosRoute
+  '/templates': typeof AppTemplatesRoute
+  '/certificados/novo': typeof AppCertificadosNovoRoute
+  '/certificados': typeof AppCertificadosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/verificar': typeof VerificarRoute
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/envios': typeof AppEnviosRoute
+  '/_app/templates': typeof AppTemplatesRoute
+  '/_app/certificados/novo': typeof AppCertificadosNovoRoute
+  '/_app/certificados/': typeof AppCertificadosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/verificar'
+    | '/dashboard'
+    | '/envios'
+    | '/templates'
+    | '/certificados/novo'
+    | '/certificados/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/verificar'
+    | '/dashboard'
+    | '/envios'
+    | '/templates'
+    | '/certificados/novo'
+    | '/certificados'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/verificar'
+    | '/_app/dashboard'
+    | '/_app/envios'
+    | '/_app/templates'
+    | '/_app/certificados/novo'
+    | '/_app/certificados/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  VerificarRoute: typeof VerificarRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verificar': {
+      id: '/verificar'
+      path: '/verificar'
+      fullPath: '/verificar'
+      preLoaderRoute: typeof VerificarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +147,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/templates': {
+      id: '/_app/templates'
+      path: '/templates'
+      fullPath: '/templates'
+      preLoaderRoute: typeof AppTemplatesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/envios': {
+      id: '/_app/envios'
+      path: '/envios'
+      fullPath: '/envios'
+      preLoaderRoute: typeof AppEnviosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/certificados/': {
+      id: '/_app/certificados/'
+      path: '/certificados'
+      fullPath: '/certificados/'
+      preLoaderRoute: typeof AppCertificadosIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/certificados/novo': {
+      id: '/_app/certificados/novo'
+      path: '/certificados/novo'
+      fullPath: '/certificados/novo'
+      preLoaderRoute: typeof AppCertificadosNovoRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppEnviosRoute: typeof AppEnviosRoute
+  AppTemplatesRoute: typeof AppTemplatesRoute
+  AppCertificadosNovoRoute: typeof AppCertificadosNovoRoute
+  AppCertificadosIndexRoute: typeof AppCertificadosIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppDashboardRoute: AppDashboardRoute,
+  AppEnviosRoute: AppEnviosRoute,
+  AppTemplatesRoute: AppTemplatesRoute,
+  AppCertificadosNovoRoute: AppCertificadosNovoRoute,
+  AppCertificadosIndexRoute: AppCertificadosIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  VerificarRoute: VerificarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
