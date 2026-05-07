@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTemplatesRouteImport } from './routes/_app.templates'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCertificadosIndexRouteImport } from './routes/_app.certificados.index'
+import { Route as AppCertificadosNovoRouteImport } from './routes/_app.certificados.novo'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -39,17 +40,24 @@ const AppCertificadosIndexRoute = AppCertificadosIndexRouteImport.update({
   path: '/certificados/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCertificadosNovoRoute = AppCertificadosNovoRouteImport.update({
+  id: '/certificados/novo',
+  path: '/certificados/novo',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof AppDashboardRoute
   '/templates': typeof AppTemplatesRoute
+  '/certificados/novo': typeof AppCertificadosNovoRoute
   '/certificados/': typeof AppCertificadosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof AppDashboardRoute
   '/templates': typeof AppTemplatesRoute
+  '/certificados/novo': typeof AppCertificadosNovoRoute
   '/certificados': typeof AppCertificadosIndexRoute
 }
 export interface FileRoutesById {
@@ -58,19 +66,26 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/templates': typeof AppTemplatesRoute
+  '/_app/certificados/novo': typeof AppCertificadosNovoRoute
   '/_app/certificados/': typeof AppCertificadosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/templates' | '/certificados/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/templates'
+    | '/certificados/novo'
+    | '/certificados/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/templates' | '/certificados'
+  to: '/' | '/dashboard' | '/templates' | '/certificados/novo' | '/certificados'
   id:
     | '__root__'
     | '/'
     | '/_app'
     | '/_app/dashboard'
     | '/_app/templates'
+    | '/_app/certificados/novo'
     | '/_app/certificados/'
   fileRoutesById: FileRoutesById
 }
@@ -116,18 +131,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCertificadosIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/certificados/novo': {
+      id: '/_app/certificados/novo'
+      path: '/certificados/novo'
+      fullPath: '/certificados/novo'
+      preLoaderRoute: typeof AppCertificadosNovoRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppTemplatesRoute: typeof AppTemplatesRoute
+  AppCertificadosNovoRoute: typeof AppCertificadosNovoRoute
   AppCertificadosIndexRoute: typeof AppCertificadosIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppTemplatesRoute: AppTemplatesRoute,
+  AppCertificadosNovoRoute: AppCertificadosNovoRoute,
   AppCertificadosIndexRoute: AppCertificadosIndexRoute,
 }
 
