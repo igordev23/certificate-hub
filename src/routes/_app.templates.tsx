@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { FileText, Plus, Trash2, Loader2, Settings, ChevronLeft, Save, Eye, Palette } from "lucide-react";
 import { api, Template } from "@/lib/api";
+import { ColorPicker } from "@/components/ColorPicker";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/_app/templates")({
@@ -201,58 +202,20 @@ function TemplatesPage() {
               </h3>
               
               {/* Primary Color */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="text-xs font-medium text-muted-foreground">Cor Primária</label>
-                  <span className="text-xs font-mono text-muted-foreground">{layout.primaryColor}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={layout.primaryColor}
-                    onChange={(e) => setLayout({ ...layout, primaryColor: e.target.value })}
-                    className="w-8 h-8 rounded border border-border cursor-pointer shrink-0"
-                  />
-                  <div className="flex flex-wrap gap-1">
-                    {PRIMARY_COLOR_PRESETS.map((preset) => (
-                      <button
-                        key={preset.value}
-                        title={preset.name}
-                        onClick={() => setLayout({ ...layout, primaryColor: preset.value })}
-                        className="w-5 h-5 rounded-full border border-border hover:scale-110 active:scale-95 transition"
-                        style={{ backgroundColor: preset.value }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <ColorPicker
+                label="Cor Primária"
+                value={layout.primaryColor}
+                onChange={(hex) => setLayout({ ...layout, primaryColor: hex })}
+                presets={PRIMARY_COLOR_PRESETS}
+              />
 
               {/* Background Color */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="text-xs font-medium text-muted-foreground">Cor de Fundo</label>
-                  <span className="text-xs font-mono text-muted-foreground">{layout.backgroundColor}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={layout.backgroundColor}
-                    onChange={(e) => setLayout({ ...layout, backgroundColor: e.target.value })}
-                    className="w-8 h-8 rounded border border-border cursor-pointer shrink-0"
-                  />
-                  <div className="flex flex-wrap gap-1">
-                    {BACKGROUND_COLOR_PRESETS.map((preset) => (
-                      <button
-                        key={preset.value}
-                        title={preset.name}
-                        onClick={() => setLayout({ ...layout, backgroundColor: preset.value })}
-                        className="w-5 h-5 rounded-full border border-border hover:scale-110 active:scale-95 transition"
-                        style={{ backgroundColor: preset.value }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <ColorPicker
+                label="Cor de Fundo"
+                value={layout.backgroundColor}
+                onChange={(hex) => setLayout({ ...layout, backgroundColor: hex })}
+                presets={BACKGROUND_COLOR_PRESETS}
+              />
             </div>
 
             <div className="space-y-4">
@@ -271,30 +234,13 @@ function TemplatesPage() {
               </div>
 
               {layout.showBorder && (
-                <div className="space-y-2 pt-2 border-t border-border/50">
-                  <div className="flex justify-between items-center">
-                    <label className="text-xs font-medium text-muted-foreground">Cor da Borda</label>
-                    <span className="text-xs font-mono text-muted-foreground">{layout.borderColor}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      value={layout.borderColor}
-                      onChange={(e) => setLayout({ ...layout, borderColor: e.target.value })}
-                      className="w-8 h-8 rounded border border-border cursor-pointer shrink-0"
-                    />
-                    <div className="flex flex-wrap gap-1">
-                      {BORDER_COLOR_PRESETS.map((preset) => (
-                        <button
-                          key={preset.value}
-                          title={preset.name}
-                          onClick={() => setLayout({ ...layout, borderColor: preset.value })}
-                          className="w-5 h-5 rounded-full border border-border hover:scale-110 active:scale-95 transition"
-                          style={{ backgroundColor: preset.value }}
-                        />
-                      ))}
-                    </div>
-                  </div>
+                <div className="pt-2 border-t border-border/50">
+                  <ColorPicker
+                    label="Cor da Borda"
+                    value={layout.borderColor}
+                    onChange={(hex) => setLayout({ ...layout, borderColor: hex })}
+                    presets={BORDER_COLOR_PRESETS}
+                  />
                 </div>
               )}
             </div>
