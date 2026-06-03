@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { TemplatesView } from "@/views/TemplatesView";
 
 export const Route = createFileRoute("/_app/templates")({
-  component: TemplatesView,
+  component: TemplatesPage,
 });
 
 const PRIMARY_COLOR_PRESETS = [
