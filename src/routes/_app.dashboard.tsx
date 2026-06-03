@@ -1,32 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Award, FileText, Send, ShieldCheck, Plus, Loader2 } from "lucide-react";
-import { api, isExpired } from "@/services/api";
-import { envios } from "@/services/envios";
 import { PageHeader } from "@/components/PageHeader";
-import { useEffect, useState } from "react";
+import { useDashboardViewModel } from "@/view-models/useDashboardViewModel";
 
 export const Route = createFileRoute("/_app/dashboard")({
   component: Dashboard,
 });
 
 function Dashboard() {
-  const [stats, setStats] = useState({ certs: 0, ativos: 0, templates: 0, envios: 0 });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    Promise.all([api.listCertificates(), api.listTemplates()])
-      .then(([certs, tpls]) => {
-        setStats({
-          certs: certs.length,
-          ativos: certs.filter((c) => !isExpired(c.validityDate)).length,
-          templates: tpls.length,
-          envios: envios.list().length,
-        });
-      })
-      .catch((e) => setError((e as Error).message))
-      .finally(() => setLoading(false));
-  }, []);
+  const { stats, loading, error, load } = useDashboardViewModel();
 
   const cards = [
     { label: "Certificados emitidos", value: stats.certs, icon: Award, color: "text-primary" },
