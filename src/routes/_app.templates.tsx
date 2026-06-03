@@ -3,9 +3,10 @@ import { FileText, Plus, Trash2, Loader2, Settings, ChevronLeft, Save, Eye, Pale
 import { useTemplatesViewModel } from "@/view-models/useTemplatesViewModel";
 import { ColorPicker } from "@/components/ColorPicker";
 import { PageHeader } from "@/components/PageHeader";
+import { TemplatesView } from "@/views/TemplatesView";
 
 export const Route = createFileRoute("/_app/templates")({
-  component: TemplatesPage,
+  component: TemplatesView,
 });
 
 const PRIMARY_COLOR_PRESETS = [
