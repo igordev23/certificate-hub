@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Plus, Search, Calendar, Download, Copy, Check, Loader2 } from "lucide-react";
-import { api, Certificate, isExpired } from "@/lib/api";
+import { api, isExpired } from "@/services/api";
+import type { Certificate } from "@/models/certificate";
 import { PageHeader } from "@/components/PageHeader";
 import { ApiError } from "./_app.templates";
 

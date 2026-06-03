@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Award, FileText, Send, ShieldCheck, Plus, Loader2 } from "lucide-react";
-import { api, isExpired, envios } from "@/lib/api";
+import { api, isExpired } from "@/services/api";
+import { envios } from "@/services/envios";
 import { PageHeader } from "@/components/PageHeader";
 import { useEffect, useState } from "react";
 

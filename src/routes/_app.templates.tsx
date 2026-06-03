@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { FileText, Plus, Trash2, Loader2, Settings, ChevronLeft, Save, Eye, Palette } from "lucide-react";
-import { api, Template } from "@/lib/api";
+import { api } from "@/services/api";
+import type { Template } from "@/models/template";
 import { ColorPicker } from "@/components/ColorPicker";
 import { PageHeader } from "@/components/PageHeader";
 

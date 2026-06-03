@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Award, Loader2 } from "lucide-react";
-import { api, Template, envios } from "@/lib/api";
+import { api } from "@/services/api";
+import type { Template } from "@/models/template";
+import { envios } from "@/services/envios";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/_app/certificados/novo")({

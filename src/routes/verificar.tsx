@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
 import { ShieldCheck, Search, CheckCircle2, XCircle, Award, ArrowLeft, Loader2 } from "lucide-react";
-import { api, VerifyResult } from "@/lib/api";
+import { useVerifyViewModel } from "@/view-models/useVerifyViewModel";
 
 export const Route = createFileRoute("/verificar")({
   head: () => ({
@@ -14,22 +13,7 @@ export const Route = createFileRoute("/verificar")({
 });
 
 function VerificarPage() {
-  const [cpf, setCpf] = useState("");
-  const [codigo, setCodigo] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [resultado, setResultado] = useState<VerifyResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  async function buscar(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true); setError(null); setResultado(null);
-    try {
-      const res = await api.verify(cpf.replace(/\D/g, ""), codigo.trim().toUpperCase());
-      setResultado(res);
-    } catch (err) {
-      setError((err as Error).message);
-    } finally { setLoading(false); }
-  }
+  const { cpf, codigo, loading, resultado, error, setCpf, setCodigo, buscar } = useVerifyViewModel();
 
   return (
     <div className="min-h-screen bg-background">

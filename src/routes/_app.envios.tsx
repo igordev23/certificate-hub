@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Send, CheckCircle2, XCircle, Clock } from "lucide-react";
-import { envios, EnvioEmail } from "@/lib/api";
+import { envios } from "@/services/envios";
+import type { EnvioEmail } from "@/models/envio";
 import { PageHeader } from "@/components/PageHeader";
 
 export const Route = createFileRoute("/_app/envios")({
