@@ -1,8 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { Plus, Search, Calendar, Download, Copy, Check, Loader2 } from "lucide-react";
 import { api, isExpired } from "@/services/api";
-import type { Certificate } from "@/models/certificate";
+import { useCertificatesViewModel } from "@/view-models/useCertificatesViewModel";
 import { PageHeader } from "@/components/PageHeader";
 import { ApiError } from "./_app.templates";
 
@@ -11,42 +10,21 @@ export const Route = createFileRoute("/_app/certificados/")({
 });
 
 function CertificadosList() {
-  const [items, setItems] = useState<Certificate[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [q, setQ] = useState("");
-  const [editId, setEditId] = useState<string | null>(null);
-  const [novaValidade, setNovaValidade] = useState("");
-  const [copied, setCopied] = useState<string | null>(null);
-
-  async function load() {
-    setLoading(true); setError(null);
-    try { setItems(await api.listCertificates()); }
-    catch (e) { setError((e as Error).message); }
-    finally { setLoading(false); }
-  }
-  useEffect(() => { load(); }, []);
-
-  const filtered = items.filter(
-    (c) =>
-      c.recipientName.toLowerCase().includes(q.toLowerCase()) ||
-      c.recipientCPF.includes(q) ||
-      c.verificationCode.toLowerCase().includes(q.toLowerCase()),
-  );
-
-  async function salvarValidade(id: string) {
-    try {
-      await api.updateValidity(id, new Date(novaValidade).toISOString());
-      setEditId(null);
-      await load();
-    } catch (err) { alert((err as Error).message); }
-  }
-
-  function copiar(c: Certificate) {
-    navigator.clipboard.writeText(c.verificationCode);
-    setCopied(c.id);
-    setTimeout(() => setCopied(null), 1500);
-  }
+  const {
+    filteredItems,
+    loading,
+    error,
+    q,
+    setQ,
+    editId,
+    setEditId,
+    novaValidade,
+    setNovaValidade,
+    copied,
+    load,
+    salvarValidade,
+    copiar,
+  } = useCertificatesViewModel();
 
   return (
     <div>
@@ -88,7 +66,7 @@ function CertificadosList() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((c) => {
+              {filteredItems.map((c) => {
                 const expired = isExpired(c.validityDate);
                 return (
                   <tr key={c.id} className="border-t border-border">
@@ -128,7 +106,7 @@ function CertificadosList() {
                   </tr>
                 );
               })}
-              {filtered.length === 0 && (
+              {filteredItems.length === 0 && (
                 <tr><td colSpan={6} className="px-4 py-12 text-center text-muted-foreground">Nenhum certificado encontrado.</td></tr>
               )}
             </tbody>
