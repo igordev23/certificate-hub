@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { Send, CheckCircle2, XCircle, Clock } from "lucide-react";
-import { envios } from "@/services/envios";
+import { useEnviosViewModel } from "@/view-models/useEnviosViewModel";
 import type { EnvioEmail } from "@/models/envio";
 import { PageHeader } from "@/components/PageHeader";
 
@@ -10,10 +9,9 @@ export const Route = createFileRoute("/_app/envios")({
 });
 
 function EnviosPage() {
-  const [items, setItems] = useState<EnvioEmail[]>([]);
-  useEffect(() => { setItems(envios.list()); }, []);
+  const { items } = useEnviosViewModel();
 
-  const icon = (s: string) =>
+  const icon = (s: EnvioEmail["status"]) =>
     s === "enviado" ? <CheckCircle2 className="w-4 h-4 text-success" /> :
     s === "falhou" ? <XCircle className="w-4 h-4 text-destructive" /> :
     <Clock className="w-4 h-4 text-warning" />;
