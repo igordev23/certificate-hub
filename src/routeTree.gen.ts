@@ -16,6 +16,8 @@ import { Route as AppTemplatesRouteImport } from './routes/_app.templates'
 import { Route as AppEnviosRouteImport } from './routes/_app.envios'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppCertificadosIndexRouteImport } from './routes/_app.certificados.index'
+import { Route as TemplatesIdEditRouteImport } from './routes/templates.$id.edit'
+import { Route as CertificadosIdEditarRouteImport } from './routes/certificados.$id.editar'
 import { Route as AppCertificadosNovoRouteImport } from './routes/_app.certificados.novo'
 
 const VerificarRoute = VerificarRouteImport.update({
@@ -52,6 +54,16 @@ const AppCertificadosIndexRoute = AppCertificadosIndexRouteImport.update({
   path: '/certificados/',
   getParentRoute: () => AppRoute,
 } as any)
+const TemplatesIdEditRoute = TemplatesIdEditRouteImport.update({
+  id: '/templates/$id/edit',
+  path: '/templates/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CertificadosIdEditarRoute = CertificadosIdEditarRouteImport.update({
+  id: '/certificados/$id/editar',
+  path: '/certificados/$id/editar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppCertificadosNovoRoute = AppCertificadosNovoRouteImport.update({
   id: '/certificados/novo',
   path: '/certificados/novo',
@@ -65,6 +77,8 @@ export interface FileRoutesByFullPath {
   '/envios': typeof AppEnviosRoute
   '/templates': typeof AppTemplatesRoute
   '/certificados/novo': typeof AppCertificadosNovoRoute
+  '/certificados/$id/editar': typeof CertificadosIdEditarRoute
+  '/templates/$id/edit': typeof TemplatesIdEditRoute
   '/certificados/': typeof AppCertificadosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -74,6 +88,8 @@ export interface FileRoutesByTo {
   '/envios': typeof AppEnviosRoute
   '/templates': typeof AppTemplatesRoute
   '/certificados/novo': typeof AppCertificadosNovoRoute
+  '/certificados/$id/editar': typeof CertificadosIdEditarRoute
+  '/templates/$id/edit': typeof TemplatesIdEditRoute
   '/certificados': typeof AppCertificadosIndexRoute
 }
 export interface FileRoutesById {
@@ -85,6 +101,8 @@ export interface FileRoutesById {
   '/_app/envios': typeof AppEnviosRoute
   '/_app/templates': typeof AppTemplatesRoute
   '/_app/certificados/novo': typeof AppCertificadosNovoRoute
+  '/certificados/$id/editar': typeof CertificadosIdEditarRoute
+  '/templates/$id/edit': typeof TemplatesIdEditRoute
   '/_app/certificados/': typeof AppCertificadosIndexRoute
 }
 export interface FileRouteTypes {
@@ -96,6 +114,8 @@ export interface FileRouteTypes {
     | '/envios'
     | '/templates'
     | '/certificados/novo'
+    | '/certificados/$id/editar'
+    | '/templates/$id/edit'
     | '/certificados/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -105,6 +125,8 @@ export interface FileRouteTypes {
     | '/envios'
     | '/templates'
     | '/certificados/novo'
+    | '/certificados/$id/editar'
+    | '/templates/$id/edit'
     | '/certificados'
   id:
     | '__root__'
@@ -115,6 +137,8 @@ export interface FileRouteTypes {
     | '/_app/envios'
     | '/_app/templates'
     | '/_app/certificados/novo'
+    | '/certificados/$id/editar'
+    | '/templates/$id/edit'
     | '/_app/certificados/'
   fileRoutesById: FileRoutesById
 }
@@ -122,6 +146,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   VerificarRoute: typeof VerificarRoute
+  CertificadosIdEditarRoute: typeof CertificadosIdEditarRoute
+  TemplatesIdEditRoute: typeof TemplatesIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -175,6 +201,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCertificadosIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/templates/$id/edit': {
+      id: '/templates/$id/edit'
+      path: '/templates/$id/edit'
+      fullPath: '/templates/$id/edit'
+      preLoaderRoute: typeof TemplatesIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/certificados/$id/editar': {
+      id: '/certificados/$id/editar'
+      path: '/certificados/$id/editar'
+      fullPath: '/certificados/$id/editar'
+      preLoaderRoute: typeof CertificadosIdEditarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app/certificados/novo': {
       id: '/_app/certificados/novo'
       path: '/certificados/novo'
@@ -207,6 +247,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   VerificarRoute: VerificarRoute,
+  CertificadosIdEditarRoute: CertificadosIdEditarRoute,
+  TemplatesIdEditRoute: TemplatesIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

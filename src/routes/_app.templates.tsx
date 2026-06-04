@@ -1,23 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { FileText, Plus, Trash2, Loader2, Settings, ChevronLeft, Save, Eye, Palette } from "lucide-react";
-import { api, Template } from "@/lib/api";
+import { useTemplatesViewModel } from "@/view-models/useTemplatesViewModel";
 import { ColorPicker } from "@/components/ColorPicker";
 import { PageHeader } from "@/components/PageHeader";
+import { TemplatesView } from "@/views/TemplatesView";
 
 export const Route = createFileRoute("/_app/templates")({
   component: TemplatesPage,
 });
-
-const DEFAULT_LAYOUT = {
-  backgroundColor: "#FFFFFF",
-  primaryColor: "#1a365d",
-  borderColor: "#c4a35a",
-  titleFontSize: 36,
-  bodyFontSize: 14,
-  showLogo: true,
-  showBorder: true,
-};
 
 const PRIMARY_COLOR_PRESETS = [
   { name: "Navy Blue", value: "#1a365d" },
@@ -45,95 +35,31 @@ const BORDER_COLOR_PRESETS = [
 ];
 
 function TemplatesPage() {
-  const [items, setItems] = useState<Template[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [open, setOpen] = useState(false);
-  
-  // Create Form State
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [saving, setSaving] = useState(false);
-
-  // Edit / Customizer State
-  const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
-  const [editName, setEditName] = useState("");
-  const [editDescription, setEditDescription] = useState("");
-  const [layout, setLayout] = useState(DEFAULT_LAYOUT);
-
-  async function load() {
-    setLoading(true);
-    setError(null);
-    try {
-      setItems(await api.listTemplates());
-    } catch (e) {
-      setError((e as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    load();
-  }, []);
-
-  async function add(e: React.FormEvent) {
-    e.preventDefault();
-    setSaving(true);
-    try {
-      await api.createTemplate({
-        name,
-        description,
-        layoutConfig: DEFAULT_LAYOUT,
-      });
-      setName("");
-      setDescription("");
-      setOpen(false);
-      await load();
-    } catch (err) {
-      alert((err as Error).message);
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function remove(id: string) {
-    if (!confirm("Remover este template?")) return;
-    try {
-      await api.deleteTemplate(id);
-      await load();
-    } catch (err) {
-      alert((err as Error).message);
-    }
-  }
-
-  function startEditing(tpl: Template) {
-    setEditingTemplate(tpl);
-    setEditName(tpl.name);
-    setEditDescription(tpl.description || "");
-    setLayout({
-      ...DEFAULT_LAYOUT,
-      ...(tpl.layoutConfig as Record<string, any>),
-    });
-  }
-
-  async function saveChanges() {
-    if (!editingTemplate) return;
-    setSaving(true);
-    try {
-      await api.updateTemplate(editingTemplate.id, {
-        name: editName,
-        description: editDescription,
-        layoutConfig: layout,
-      });
-      setEditingTemplate(null);
-      await load();
-    } catch (err) {
-      alert((err as Error).message);
-    } finally {
-      setSaving(false);
-    }
-  }
+  const {
+    items,
+    loading,
+    error,
+    open,
+    setOpen,
+    name,
+    description,
+    saving,
+    editingTemplate,
+    editName,
+    editDescription,
+    layout,
+    load,
+    add,
+    remove,
+    startEditing,
+    saveChanges,
+    cancelEditing,
+    setName,
+    setDescription,
+    setEditName,
+    setEditDescription,
+    setLayout,
+  } = useTemplatesViewModel();
 
   if (editingTemplate) {
     return (
@@ -141,7 +67,7 @@ function TemplatesPage() {
         <div className="flex items-center justify-between pb-4 border-b border-border">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setEditingTemplate(null)}
+              onClick={cancelEditing}
               className="p-2 rounded-lg border border-border hover:bg-secondary transition text-muted-foreground hover:text-foreground"
             >
               <ChevronLeft className="w-4 h-4" />
