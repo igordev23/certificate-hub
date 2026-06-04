@@ -56,7 +56,12 @@ function CertificadoEdit() {
       });
       navigate({ to: "/certificados" });
     } catch (e) {
-      setError((e as Error).message);
+      const err = e as any;
+      if (err?.details) {
+        setError(err.details.map((d: any) => d.message).join(". "));
+      } else {
+        setError(err?.message || "Erro desconhecido");
+      }
     } finally {
       setSaving(false);
     }

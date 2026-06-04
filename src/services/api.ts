@@ -11,8 +11,13 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(text || `HTTP ${res.status}`);
+    const body = await res.json().catch(() => null);
+    if (body?.details) {
+      const err = new Error(body.error || "Erro de validação");
+      (err as any).details = body.details;
+      throw err;
+    }
+    throw new Error(body?.error || `HTTP ${res.status}`);
   }
 
   const json = await res.json();
