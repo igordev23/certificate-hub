@@ -43,6 +43,11 @@ export const api = {
       method: "PUT",
       body: JSON.stringify({ validityDate }),
     }),
+  updateCertificate: (id: string, body: Partial<Certificate>) =>
+    http<Certificate>(`/api/certificates/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    }),
   pdfUrl: (id: string) => `${API_URL}/api/certificates/${id}/pdf`,
 
   verify: (cpf: string, verificationCode: string) =>
