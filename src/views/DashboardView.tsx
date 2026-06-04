@@ -33,10 +33,13 @@ export function DashboardView() {
   );
 }
 
-function StatCard({ title, value, loading }: { title: string; value: number; loading?: boolean }) {
+function StatCard({ title, value, loading, icon }: { title: string; value: number; loading?: boolean; icon?: React.ReactNode }) {
   return (
     <div className="bg-card border border-border rounded-xl p-4">
-      <div className="text-sm text-muted-foreground">{title}</div>
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
+        {title}
+        {icon}
+      </div>
       <div className="text-2xl font-semibold mt-2">{loading ? '—' : value}</div>
     </div>
   );
