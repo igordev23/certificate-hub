@@ -20,7 +20,12 @@ export function useVerifyViewModel() {
       const res = await api.verify(cpf.replace(/\D/g, ""), codigo.trim().toUpperCase());
       setResultado(res);
     } catch (err) {
-      setError((err as Error).message);
+      const e = err as any;
+      if (e?.details) {
+        setError(e.details.map((d: any) => d.message).join(". "));
+      } else {
+        setError(e?.message || "Erro desconhecido");
+      }
     } finally {
       setLoading(false);
     }
