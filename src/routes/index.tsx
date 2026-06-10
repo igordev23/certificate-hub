@@ -39,7 +39,7 @@ function Index() {
           </span>
           <h1 className="mt-6 text-5xl md:text-6xl font-bold tracking-tight leading-[1.05]">
             Certificados digitais com{" "}
-            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-primary)" }}>
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: "var(--gradient-navy-gold)" }}>
               autenticidade verificável
             </span>
           </h1>
@@ -63,9 +63,9 @@ function Index() {
             { icon: Send, title: "Envio por e-mail", desc: "Entrega instantânea." },
             { icon: ShieldCheck, title: "Verificação", desc: "Pública e segura." },
           ].map((f) => (
-            <div key={f.title} className="bg-card border border-border rounded-xl p-5 transition-all duration-200 hover:shadow-elevated hover:border-primary/20" style={{ boxShadow: "var(--shadow-card)" }}>
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center mb-3">
-                <f.icon className="w-5 h-5 text-primary" />
+            <div key={f.title} className="bg-card border border-border rounded-xl p-5 transition-all duration-200 hover:shadow-elevated hover:border-gold/30 group" style={{ boxShadow: "var(--shadow-card)" }}>
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold/10 to-amber-400/10 flex items-center justify-center mb-3 group-hover:from-gold/20 group-hover:to-amber-400/20 transition-all duration-200">
+                <f.icon className="w-5 h-5 text-gold/70 group-hover:text-gold transition-colors duration-200" />
               </div>
               <div className="font-semibold">{f.title}</div>
               <div className="text-sm text-muted-foreground mt-1">{f.desc}</div>

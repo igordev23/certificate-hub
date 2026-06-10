@@ -102,7 +102,7 @@ function StatCard({
       <div className="flex items-center justify-between mb-3">
         <span className="text-sm text-muted-foreground">{title}</span>
         <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center`}>
-          <Icon className={`w-4.5 h-4.5 ${iconColor}`} />
+          <Icon className={`w-4 h-4 ${iconColor}`} />
         </div>
       </div>
       <div className="text-3xl font-bold tracking-tight">
