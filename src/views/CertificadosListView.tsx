@@ -120,30 +120,33 @@ export function CertificadosListView() {
             {filteredItems.map((c: Certificate) => (
               <div
                 key={c.id}
-                className="group bg-card border border-border rounded-xl p-4 flex items-center gap-4 transition-all duration-200 hover:shadow-elevated hover:border-primary/20"
+                className="group bg-card border border-border rounded-xl p-3 sm:p-4 transition-all duration-200 hover:shadow-elevated hover:border-primary/20"
                 style={{ boxShadow: "var(--shadow-card)" }}
               >
-                <InitialsAvatar name={c.recipientName} />
+                <div className="sm:flex sm:items-center sm:gap-3">
+                  <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                    <InitialsAvatar name={c.recipientName} />
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-[15px]">{c.recipientName}</span>
-                    <StatusBadge certificate={c} />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-semibold text-[15px] truncate max-w-[180px] sm:max-w-none">{c.recipientName}</span>
+                        <StatusBadge certificate={c} />
+                      </div>
+                      <div className="flex items-center gap-3 mt-0.5 text-sm text-muted-foreground">
+                        <span className="flex items-center gap-1 truncate min-w-0">
+                          <GraduationCap className="w-3.5 h-3.5 shrink-0" />
+                          <span className="truncate">{c.courseName}</span>
+                        </span>
+                        <span className="text-border shrink-0">|</span>
+                        <span className="shrink-0">{c.courseHours}h</span>
+                      </div>
+                      <div className="text-[11px] text-muted-foreground/50 mt-0.5 font-mono truncate">
+                        {c.verificationCode}
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 mt-0.5 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <GraduationCap className="w-3.5 h-3.5" />
-                      {c.courseName}
-                    </span>
-                    <span className="text-border">|</span>
-                    <span>{c.courseHours}h</span>
-                  </div>
-                  <div className="text-[11px] text-muted-foreground/50 mt-0.5 font-mono">
-                    {c.verificationCode}
-                  </div>
-                </div>
 
-                <div className="flex items-center gap-1.5">
+                  <div className="flex items-center justify-end gap-1 mt-2 sm:mt-0 border-t sm:border-t-0 border-border/50 pt-2 sm:pt-0">
                   <button
                     title="Copiar código"
                     onClick={() => copiar(c)}
@@ -201,6 +204,7 @@ export function CertificadosListView() {
                       >
                         <Pencil className="w-4 h-4" />
                       </Link>
+                  </div>
                 </div>
               </div>
             ))}
