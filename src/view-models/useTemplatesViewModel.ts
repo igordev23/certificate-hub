@@ -34,6 +34,7 @@ export function useTemplatesViewModel() {
   const [editName, setEditName] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [layout, setLayout] = useState<TemplateLayoutConfig>(DEFAULT_LAYOUT);
+  const [loadKey, setLoadKey] = useState(0);
 
   async function load() {
     setLoading(true);
@@ -49,7 +50,7 @@ export function useTemplatesViewModel() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [loadKey]);
 
   async function add(e: React.FormEvent) {
     e.preventDefault();
@@ -63,7 +64,7 @@ export function useTemplatesViewModel() {
       setName("");
       setDescription("");
       setOpen(false);
-      await load();
+      setLoadKey((k) => k + 1);
     } catch (err) {
       alert((err as Error).message);
     } finally {
@@ -75,7 +76,7 @@ export function useTemplatesViewModel() {
     if (!confirm("Remover este template?")) return;
     try {
       await api.deleteTemplate(id);
-      await load();
+      setLoadKey((k) => k + 1);
     } catch (err) {
       alert((err as Error).message);
     }
@@ -101,7 +102,7 @@ export function useTemplatesViewModel() {
         layoutConfig: layout,
       });
       setEditingTemplate(null);
-      await load();
+      setLoadKey((k) => k + 1);
     } catch (err) {
       alert((err as Error).message);
     } finally {

@@ -25,7 +25,7 @@ const DEFAULT_FORM_STATE: EmitCertificateForm = {
   validityDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365).toISOString().slice(0, 10),
 };
 
-function isValidCPF(cpf: string): boolean {
+export function isValidCPF(cpf: string): boolean {
   const digits = cpf.replace(/\D/g, "");
   if (digits.length !== 11) return false;
   if (/^(\d)\1{10}$/.test(digits)) return false;
@@ -42,7 +42,7 @@ function isValidCPF(cpf: string): boolean {
   return true;
 }
 
-function formatCPF(value: string): string {
+export function formatCPF(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 11);
   if (digits.length <= 3) return digits;
   if (digits.length <= 6) return `${digits.slice(0, 3)}.${digits.slice(3)}`;
