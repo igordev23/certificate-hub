@@ -1,60 +1,49 @@
 import { test, expect } from "@playwright/test";
 
+const TEMPLATE_NAME = `E2E ${Date.now()}`;
+const CPF = "529.982.247-25";
+
 test.describe("Fluxo completo: criar template → emitir → validar", () => {
   test("cria um template, emite um certificado e valida pela página pública", async ({ page }) => {
     // 1. Criar template
     await page.goto("/templates");
     await page.waitForLoadState("networkidle");
 
-    const criarBtn = page.getByRole("button", { name: /criar/i });
-    if (await criarBtn.isVisible()) {
-      await criarBtn.click();
-    }
+    await page.getByRole("button", { name: /novo template/i }).click();
+    await page.getByPlaceholder(/ex\.:/i).fill(TEMPLATE_NAME);
+    await page.getByRole("button", { name: /salvar/i }).click();
 
-    const nomeTemplateInput = page.getByLabel(/nome/i).or(page.getByPlaceholder(/nome/i));
-    if (await nomeTemplateInput.isVisible()) {
-      await nomeTemplateInput.fill("Template E2E");
-    }
-
-    const salvarBtn = page.getByRole("button", { name: /salvar|criar/i }).first();
-    if (await salvarBtn.isVisible()) {
-      await salvarBtn.click();
-    }
-
-    await expect(page.getByText("Template E2E")).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(TEMPLATE_NAME)).toBeVisible({ timeout: 15000 });
 
     // 2. Emitir certificado
     await page.goto("/certificados/novo");
     await page.waitForLoadState("networkidle");
 
-    await page.getByLabel(/nome/i).or(page.getByPlaceholder(/nome/i)).fill("João E2E");
-    await page.getByLabel(/cpf/i).or(page.getByPlaceholder(/cpf/i)).fill("529.982.247-25");
-    await page.getByLabel(/curso/i).or(page.getByPlaceholder(/curso/i)).fill("Curso E2E");
-    await page.getByLabel(/validade/i).or(page.getByPlaceholder(/validade/i)).fill("2028-12-31");
+    await page.selectOption("select", { label: TEMPLATE_NAME });
+    await page.locator('div:has(> label:has-text("Nome do participante"))').locator("input").fill("João E2E");
+    await page.getByPlaceholder("000.000.000-00").fill(CPF);
+    await page.locator('div:has(> label:has-text("Nome do curso"))').locator("input").fill("Curso E2E");
+    await page.getByRole("spinbutton").fill("40");
+    await page.locator('div:has(> label:has-text("Data de validade"))').locator("input").fill("2028-12-31");
 
-    const emitirBtn = page.getByRole("button", { name: /emitir/i });
-    await emitirBtn.click();
-
-    await expect(page).toHaveURL(/\/certificados/, { timeout: 10000 });
+    await page.getByRole("button", { name: /emitir/i }).click();
+    await expect(page).toHaveURL(/\/certificados/, { timeout: 15000 });
 
     // 3. Copiar código de verificação do primeiro certificado
-    const codigoEl = page.locator("text=/[A-Z0-9]{6}/").first();
-    const verificationCode = await codigoEl.textContent();
+    await page.waitForTimeout(1000);
+    const verificationCode = await page.locator(".font-mono.truncate").first().textContent();
+    expect(verificationCode).toBeTruthy();
 
     // 4. Validar na página pública
     await page.goto("/verificar");
     await page.waitForLoadState("networkidle");
 
-    await page.getByLabel(/cpf/i).or(page.getByPlaceholder(/cpf/i)).fill("529.982.247-25");
+    await page.getByPlaceholder("00000000000").fill(CPF);
     if (verificationCode) {
-      await page.getByLabel(/código|codigo|verificação|verificacao/i)
-        .or(page.getByPlaceholder(/código|codigo|verificação|verificacao/i))
-        .fill(verificationCode.trim());
+      await page.getByPlaceholder("A3B7K9XZ").fill(verificationCode.trim());
     }
 
-    const validarBtn = page.getByRole("button", { name: /validar|verificar/i });
-    await validarBtn.click();
-
-    await expect(page.getByText(/válido|valido|ativo|válid/i)).toBeVisible({ timeout: 10000 });
+    await page.getByRole("button", { name: /verificar/i }).click();
+    await expect(page.getByText(/Certificado autêntico e válido/i)).toBeVisible({ timeout: 15000 });
   });
 });

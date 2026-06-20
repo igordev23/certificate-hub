@@ -9,6 +9,7 @@ export default defineConfig({
     baseURL: "http://localhost:5173",
     headless: true,
     screenshot: "only-on-failure",
+    trace: "retain-on-failure",
   },
   webServer: {
     command: "npm run dev",
