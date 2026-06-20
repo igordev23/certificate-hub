@@ -72,14 +72,29 @@ describe("useDashboardViewModel", () => {
     expect(result.current.error).toBeNull();
   });
 
-  it("sets error when API calls fail", async () => {
-    (api.listCertificates as jest.Mock).mockRejectedValue(new Error("API error"));
-    (api.listTemplates as jest.Mock).mockRejectedValue(new Error("API error"));
+  it("shows friendly error message from API, not stack trace", async () => {
+    const apiError = new Error("Unauthorized - verifique suas credenciais");
+    (api.listCertificates as jest.Mock).mockRejectedValue(apiError);
+    (api.listTemplates as jest.Mock).mockRejectedValue(apiError);
 
     const { result } = renderHook(() => useDashboardViewModel());
 
     await waitFor(() => expect(result.current.loading).toBe(false));
-    expect(result.current.error).toBe("API error");
+    expect(result.current.error).toBe("Unauthorized - verifique suas credenciais");
+    expect(result.current.error).not.toContain("Error:");
+    expect(result.current.error).not.toContain("at ");
+  });
+
+  it("handles API 401 with HTTP status fallback", async () => {
+    (api.listCertificates as jest.Mock).mockRejectedValue(new Error("HTTP 401"));
+    (api.listTemplates as jest.Mock).mockRejectedValue(new Error("HTTP 401"));
+
+    const { result } = renderHook(() => useDashboardViewModel());
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.error).toBe("HTTP 401");
+    expect(result.current.error).not.toContain("stack");
+    expect(result.current.error).not.toContain("Error:");
   });
 
   it("calculates ativos excluding expired certificates", async () => {

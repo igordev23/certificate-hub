@@ -89,6 +89,28 @@ describe("api.http (via listTemplates)", () => {
     mockFetch.mockResolvedValue(mockJsonError());
     await expect(api.getTemplate("x")).rejects.toThrow("HTTP 500");
   });
+
+  it("throws HTTP 401 when response is 401 with no error body", async () => {
+    mockFetch.mockResolvedValue(
+      Promise.resolve({
+        ok: false,
+        status: 401,
+        json: () => Promise.reject(new Error("invalid json")),
+      } as Response),
+    );
+    await expect(api.listTemplates()).rejects.toThrow("HTTP 401");
+  });
+
+  it("throws error message when response is 401 with error body", async () => {
+    mockFetch.mockResolvedValue(
+      Promise.resolve({
+        ok: false,
+        status: 401,
+        json: () => Promise.resolve({ error: "Unauthorized" }),
+      } as Response),
+    );
+    await expect(api.listTemplates()).rejects.toThrow("Unauthorized");
+  });
 });
 
 describe("api methods", () => {
