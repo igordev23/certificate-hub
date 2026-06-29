@@ -47,6 +47,15 @@ O projeto adota uma arquitetura em camadas com React 19, TypeScript e TanStack R
 
 ---
 
+## 🖼️ Screenshots
+
+<div align="center">
+  <img src="/screenshot.png" alt="Certificate Hub - Dashboard" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+  <p><em>Dashboard principal do Certificate Hub</em></p>
+</div>
+
+---
+
 ## ✨ Funcionalidades
 
 ### Gestão de Certificados
