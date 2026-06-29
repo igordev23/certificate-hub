@@ -2,7 +2,7 @@ import { Template } from "@/models/template";
 import { Certificate } from "@/models/certificate";
 import type { VerifyResult } from "@/models/verify";
 
-const API_URL = (import.meta.env.VITE_API_URL as string) || "http://localhost:3000";
+const API_URL = process.env.VITE_API_URL || "http://localhost:3000";
 
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, {
