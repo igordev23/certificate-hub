@@ -57,7 +57,7 @@ describe("api.http (via listTemplates)", () => {
     const result = await api.listTemplates();
     expect(result).toEqual(templates);
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/templates",
+      `${BASE_URL}/api/templates`,
       expect.objectContaining({
         headers: { "Content-Type": "application/json" },
       }),
@@ -122,7 +122,7 @@ describe("api methods", () => {
   it("getTemplate calls GET with id", async () => {
     await api.getTemplate("tpl-1");
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/templates/tpl-1",
+      `${BASE_URL}/api/templates/tpl-1`,
       expect.anything(),
     );
   });
@@ -130,7 +130,7 @@ describe("api methods", () => {
   it("createTemplate calls POST with body", async () => {
     await api.createTemplate({ name: "Novo" });
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/templates",
+      `${BASE_URL}/api/templates`,
       expect.objectContaining({
         method: "POST",
         body: JSON.stringify({ name: "Novo" }),
@@ -141,7 +141,7 @@ describe("api methods", () => {
   it("updateTemplate calls PUT with partial body", async () => {
     await api.updateTemplate("tpl-1", { name: "Editado" });
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/templates/tpl-1",
+      `${BASE_URL}/api/templates/tpl-1`,
       expect.objectContaining({
         method: "PUT",
         body: JSON.stringify({ name: "Editado" }),
@@ -153,7 +153,7 @@ describe("api methods", () => {
     mockFetch.mockResolvedValue(mockResponse({ data: null }));
     await api.deleteTemplate("tpl-1");
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/templates/tpl-1",
+      `${BASE_URL}/api/templates/tpl-1`,
       expect.objectContaining({ method: "DELETE" }),
     );
   });
@@ -161,7 +161,7 @@ describe("api methods", () => {
   it("getCertificate calls GET with id", async () => {
     await api.getCertificate("cert-1");
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/certificates/cert-1",
+      `${BASE_URL}/api/certificates/cert-1`,
       expect.anything(),
     );
   });
@@ -177,7 +177,7 @@ describe("api methods", () => {
     };
     await api.emitCertificate(body);
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/certificates/emit",
+      `${BASE_URL}/api/certificates/emit`,
       expect.objectContaining({
         method: "POST",
         body: JSON.stringify(body),
@@ -188,7 +188,7 @@ describe("api methods", () => {
   it("updateValidity calls PUT with validityDate", async () => {
     await api.updateValidity("cert-1", "2027-06-10T00:00:00.000Z");
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/certificates/cert-1/validity",
+      `${BASE_URL}/api/certificates/cert-1/validity`,
       expect.objectContaining({
         method: "PUT",
         body: JSON.stringify({ validityDate: "2027-06-10T00:00:00.000Z" }),
@@ -199,7 +199,7 @@ describe("api methods", () => {
   it("updateCertificate calls PUT with partial body", async () => {
     await api.updateCertificate("cert-1", { courseName: "Novo Curso" });
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/certificates/cert-1",
+      `${BASE_URL}/api/certificates/cert-1`,
       expect.objectContaining({
         method: "PUT",
         body: JSON.stringify({ courseName: "Novo Curso" }),
@@ -209,14 +209,14 @@ describe("api methods", () => {
 
   it("pdfUrl returns correct URL", () => {
     const url = api.pdfUrl("cert-1");
-    expect(url).toBe("http://localhost:3000/api/certificates/cert-1/pdf");
+    expect(url).toBe(`${BASE_URL}/api/certificates/cert-1/pdf`);
   });
 
   it("verify calls POST with CPF and code", async () => {
     mockFetch.mockResolvedValue(mockResponse({ data: { isValid: true } }));
     await api.verify("52998224725", "ABC123");
     expect(mockFetch).toHaveBeenCalledWith(
-      "http://localhost:3000/api/verify",
+      `${BASE_URL}/api/verify`,
       expect.objectContaining({
         method: "POST",
         body: JSON.stringify({ cpf: "52998224725", verificationCode: "ABC123" }),
