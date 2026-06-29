@@ -13,10 +13,5 @@ export default defineConfig({
       ? JSON.stringify(process.env.VITE_API_URL)
       : "undefined",
   },
-  plugins: [
-    tanstackRouter(),
-    tsconfigPaths(),
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [tanstackRouter(), tsconfigPaths(), react(), tailwindcss()],
 });
