@@ -20,11 +20,20 @@ test.describe("Fluxo completo: criar template → emitir → validar", () => {
     await page.waitForLoadState("networkidle");
 
     await page.selectOption("select", { label: TEMPLATE_NAME });
-    await page.locator('div:has(> label:has-text("Nome do participante"))').locator("input").fill("João E2E");
+    await page
+      .locator('div:has(> label:has-text("Nome do participante"))')
+      .locator("input")
+      .fill("João E2E");
     await page.getByPlaceholder("000.000.000-00").fill(CPF);
-    await page.locator('div:has(> label:has-text("Nome do curso"))').locator("input").fill("Curso E2E");
+    await page
+      .locator('div:has(> label:has-text("Nome do curso"))')
+      .locator("input")
+      .fill("Curso E2E");
     await page.getByRole("spinbutton").fill("40");
-    await page.locator('div:has(> label:has-text("Data de validade"))').locator("input").fill("2028-12-31");
+    await page
+      .locator('div:has(> label:has-text("Data de validade"))')
+      .locator("input")
+      .fill("2028-12-31");
 
     await page.getByRole("button", { name: /emitir/i }).click();
     await expect(page).toHaveURL(/\/certificados/, { timeout: 15000 });

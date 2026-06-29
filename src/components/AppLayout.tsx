@@ -1,5 +1,14 @@
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
-import { Award, FileText, ShieldCheck, LayoutDashboard, Send, ChevronRight, Menu, X } from "lucide-react";
+import {
+  Award,
+  FileText,
+  ShieldCheck,
+  LayoutDashboard,
+  Send,
+  ChevronRight,
+  Menu,
+  X,
+} from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 
 const nav = [
@@ -54,9 +63,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
                 }`}
               />
               {n.label}
-              {active && (
-                <ChevronRight className="w-3.5 h-3.5 ml-auto text-gold/40" />
-              )}
+              {active && <ChevronRight className="w-3.5 h-3.5 ml-auto text-gold/40" />}
             </Link>
           );
         })}
@@ -108,7 +115,9 @@ export function AppLayout() {
         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold to-amber-400 grid place-items-center shadow">
           <ShieldCheck className="w-4 h-4 text-sidebar-primary-foreground" />
         </div>
-        <span className="font-bold tracking-tight text-sm text-sidebar-foreground/90">CertifyHub</span>
+        <span className="font-bold tracking-tight text-sm text-sidebar-foreground/90">
+          CertifyHub
+        </span>
       </div>
 
       {/* Desktop sidebar */}

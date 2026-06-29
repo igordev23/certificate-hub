@@ -218,9 +218,15 @@
   animation: cpPulse 0.35s ease;
 }
 @keyframes cpPulse {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.08); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Mode tabs (HEX / RGB / HSL) */
@@ -390,7 +396,9 @@
 }
 .cp-preset-btn--active {
   border-color: var(--foreground);
-  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--foreground);
+  box-shadow:
+    0 0 0 2px var(--background),
+    0 0 0 4px var(--foreground);
 }
 
 /* Overlay backdrop for closing */

@@ -55,7 +55,9 @@ export function DashboardView() {
             <FileText className="w-5 h-5 text-primary" />
           </div>
           <h3 className="font-semibold">Gerenciar templates</h3>
-          <p className="text-sm text-muted-foreground mt-1">Cadastre modelos de certificado reutilizáveis.</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Cadastre modelos de certificado reutilizáveis.
+          </p>
           <span className="inline-flex items-center gap-1 text-sm text-primary font-medium mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
             Acessar <ArrowRight className="w-3.5 h-3.5" />
           </span>
@@ -101,7 +103,9 @@ function StatCard({
     >
       <div className="flex items-center justify-between mb-3">
         <span className="text-sm text-muted-foreground">{title}</span>
-        <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+        <div
+          className={`w-9 h-9 rounded-lg bg-gradient-to-br ${gradient} flex items-center justify-center`}
+        >
           <Icon className={`w-4 h-4 ${iconColor}`} />
         </div>
       </div>

@@ -13,7 +13,11 @@ export function TemplatesView() {
         title="Templates"
         description="Gerencie modelos de certificado."
         action={
-          <button onClick={() => setOpen(true)} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-primary-foreground font-medium text-sm transition-all duration-200 hover:scale-[1.02]" style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-elegant)" }}>
+          <button
+            onClick={() => setOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-primary-foreground font-medium text-sm transition-all duration-200 hover:scale-[1.02]"
+            style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-elegant)" }}
+          >
             <Plus className="w-4 h-4" /> Novo template
           </button>
         }
@@ -29,7 +33,9 @@ export function TemplatesView() {
           <div className="p-12 text-center bg-card border border-border rounded-xl">
             <Palette className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
             <div className="text-muted-foreground font-medium">Nenhum template encontrado</div>
-            <p className="text-sm text-muted-foreground/60 mt-1">Crie seu primeiro template para começar.</p>
+            <p className="text-sm text-muted-foreground/60 mt-1">
+              Crie seu primeiro template para começar.
+            </p>
           </div>
         ) : (
           <div className="space-y-3">

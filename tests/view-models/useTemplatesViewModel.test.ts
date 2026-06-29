@@ -4,7 +4,8 @@ import { useTemplatesViewModel } from "../../src/view-models/useTemplatesViewMod
 const origConsoleError = console.error;
 beforeAll(() => {
   console.error = (...args: any[]) => {
-    if (typeof args[0] === "string" && args[0].includes("inside a test was not wrapped in act")) return;
+    if (typeof args[0] === "string" && args[0].includes("inside a test was not wrapped in act"))
+      return;
     origConsoleError.call(console, ...args);
   };
 });

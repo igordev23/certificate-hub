@@ -1,5 +1,9 @@
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { isValidCPF, formatCPF, useEmitCertificateViewModel } from "../../src/view-models/useEmitCertificateViewModel";
+import {
+  isValidCPF,
+  formatCPF,
+  useEmitCertificateViewModel,
+} from "../../src/view-models/useEmitCertificateViewModel";
 
 const mockTemplates = [
   { id: "tpl-1", name: "Default", description: "", layoutConfig: {}, createdAt: "", updatedAt: "" },
@@ -235,7 +239,9 @@ describe("useEmitCertificateViewModel", () => {
     await act(async () => {
       await result.current.submit({ preventDefault: jest.fn() } as any);
     });
-    expect(result.current.errors).toEqual([{ field: "recipientName", message: "Nome é obrigatório" }]);
+    expect(result.current.errors).toEqual([
+      { field: "recipientName", message: "Nome é obrigatório" },
+    ]);
   });
 
   it("submit sets general error from API message", async () => {
@@ -261,7 +267,9 @@ describe("useEmitCertificateViewModel", () => {
     await act(async () => {
       await result.current.submit({ preventDefault: jest.fn() } as any);
     });
-    expect(result.current.errors).toEqual([{ field: "geral", message: "Erro desconhecido ao emitir certificado" }]);
+    expect(result.current.errors).toEqual([
+      { field: "geral", message: "Erro desconhecido ao emitir certificado" },
+    ]);
   });
 
   it("cancel navigates to /certificados", async () => {
@@ -288,7 +296,9 @@ describe("useEmitCertificateViewModel", () => {
     await act(async () => {
       await result.current.submit({ preventDefault: jest.fn() } as any);
     });
-    expect(result.current.getFieldError("recipientCPF")).toBe("CPF inválido. Digite um CPF com 11 dígitos válidos.");
+    expect(result.current.getFieldError("recipientCPF")).toBe(
+      "CPF inválido. Digite um CPF com 11 dígitos válidos.",
+    );
     expect(result.current.getFieldError("recipientName")).toBeUndefined();
   });
 

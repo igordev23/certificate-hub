@@ -59,7 +59,8 @@ export function useEmitCertificateViewModel() {
   const [errors, setErrors] = useState<ValidationError[]>([]);
 
   useEffect(() => {
-    api.listTemplates()
+    api
+      .listTemplates()
       .then((t) => {
         setTemplates(t);
         if (t[0]) {
@@ -72,12 +73,18 @@ export function useEmitCertificateViewModel() {
       .finally(() => setLoadingTemplates(false));
   }, []);
 
-  function setFormField<K extends keyof EmitCertificateForm>(key: K, value: EmitCertificateForm[K]) {
+  function setFormField<K extends keyof EmitCertificateForm>(
+    key: K,
+    value: EmitCertificateForm[K],
+  ) {
     if (errors.some((e) => e.field === key)) {
       setErrors((prev) => prev.filter((e) => e.field !== key));
     }
     if (key === "recipientCPF") {
-      setForm((current) => ({ ...current, [key]: formatCPF(value as string) as EmitCertificateForm[K] }));
+      setForm((current) => ({
+        ...current,
+        [key]: formatCPF(value as string) as EmitCertificateForm[K],
+      }));
     } else {
       setForm((current) => ({ ...current, [key]: value }));
     }
@@ -90,7 +97,9 @@ export function useEmitCertificateViewModel() {
 
     const rawCPF = form.recipientCPF.replace(/\D/g, "");
     if (rawCPF.length !== 11 || !isValidCPF(rawCPF)) {
-      setErrors([{ field: "recipientCPF", message: "CPF inválido. Digite um CPF com 11 dígitos válidos." }]);
+      setErrors([
+        { field: "recipientCPF", message: "CPF inválido. Digite um CPF com 11 dígitos válidos." },
+      ]);
       setSubmitting(false);
       return;
     }
@@ -119,7 +128,7 @@ export function useEmitCertificateViewModel() {
       navigate({ to: "/certificados" });
     } catch (err) {
       const error = err as any;
-      
+
       if (error?.details && Array.isArray(error.details)) {
         setErrors(error.details);
       } else if (error?.message) {

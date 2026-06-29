@@ -1,5 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { FileText, Plus, Trash2, Loader2, Settings, ChevronLeft, Save, Eye, Palette } from "lucide-react";
+import {
+  FileText,
+  Plus,
+  Trash2,
+  Loader2,
+  Settings,
+  ChevronLeft,
+  Save,
+  Eye,
+  Palette,
+} from "lucide-react";
 import { useTemplatesViewModel } from "@/view-models/useTemplatesViewModel";
 import { ColorPicker } from "@/components/ColorPicker";
 import { PageHeader } from "@/components/PageHeader";
@@ -85,25 +95,26 @@ function TemplatesPage() {
             className="px-4 py-2 rounded-md text-primary-foreground font-medium inline-flex items-center gap-2"
             style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-elegant)" }}
           >
-            {saving ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4" />
-            )}
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Salvar Alterações
           </button>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
           {/* Customizer Panel */}
-          <div className="lg:col-span-5 bg-card border border-border rounded-xl p-5 space-y-6 max-h-[80vh] overflow-y-auto" style={{ boxShadow: "var(--shadow-card)" }}>
+          <div
+            className="lg:col-span-5 bg-card border border-border rounded-xl p-5 space-y-6 max-h-[80vh] overflow-y-auto"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
             <div className="space-y-4">
               <h3 className="font-semibold text-sm border-b border-border pb-1.5 flex items-center gap-2">
                 <FileText className="w-4 h-4 text-primary" /> Informações básicas
               </h3>
               <div className="space-y-3">
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground">Nome do template</label>
+                  <label className="text-xs font-medium text-muted-foreground">
+                    Nome do template
+                  </label>
                   <input
                     required
                     value={editName}
@@ -126,7 +137,7 @@ function TemplatesPage() {
               <h3 className="font-semibold text-sm border-b border-border pb-1.5 flex items-center gap-2">
                 <Palette className="w-4 h-4 text-primary" /> Cores e Estilos
               </h3>
-              
+
               {/* Primary Color */}
               <ColorPicker
                 label="Cor Primária"
@@ -148,7 +159,7 @@ function TemplatesPage() {
               <h3 className="font-semibold text-sm border-b border-border pb-1.5 flex items-center gap-2">
                 <Settings className="w-4 h-4 text-primary" /> Borda e Margens
               </h3>
-              
+
               <div className="flex items-center justify-between">
                 <label className="text-xs font-medium text-muted-foreground">Exibir Borda</label>
                 <input
@@ -175,7 +186,7 @@ function TemplatesPage() {
               <h3 className="font-semibold text-sm border-b border-border pb-1.5 flex items-center gap-2">
                 <Eye className="w-4 h-4 text-primary" /> Fontes (Tamanho)
               </h3>
-              
+
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-medium text-muted-foreground">
                   <span>Tamanho do Título</span>
@@ -237,14 +248,20 @@ function TemplatesPage() {
 
               {/* Decorative Top Line */}
               <div className="z-10 w-full px-8 mt-6">
-                <div className="h-0.5 w-full rounded" style={{ backgroundColor: layout.primaryColor }} />
+                <div
+                  className="h-0.5 w-full rounded"
+                  style={{ backgroundColor: layout.primaryColor }}
+                />
               </div>
 
               {/* Header Titles */}
               <div className="z-10 text-center flex flex-col items-center">
                 <h1
                   className="font-bold tracking-widest leading-none font-serif"
-                  style={{ color: layout.primaryColor, fontSize: `${(layout.titleFontSize * 0.7).toFixed(1)}px` }}
+                  style={{
+                    color: layout.primaryColor,
+                    fontSize: `${(layout.titleFontSize * 0.7).toFixed(1)}px`,
+                  }}
                 >
                   CERTIFICADO
                 </h1>
@@ -264,7 +281,10 @@ function TemplatesPage() {
                 </p>
                 <h2
                   className="font-bold font-sans"
-                  style={{ color: layout.primaryColor, fontSize: `${((layout.bodyFontSize + 10) * 0.85).toFixed(1)}px` }}
+                  style={{
+                    color: layout.primaryColor,
+                    fontSize: `${((layout.bodyFontSize + 10) * 0.85).toFixed(1)}px`,
+                  }}
                 >
                   João da Silva Sauro
                 </h2>
@@ -288,7 +308,9 @@ function TemplatesPage() {
                 </div>
                 <div className="text-center">
                   <div className="h-[1px] w-32 bg-muted-foreground/40 mx-auto" />
-                  <p className="text-[8px] text-muted-foreground mt-1 font-semibold">Diretor de Capacitação</p>
+                  <p className="text-[8px] text-muted-foreground mt-1 font-semibold">
+                    Diretor de Capacitação
+                  </p>
                   <p className="text-[7px] text-muted-foreground/60">CertifyHub Org</p>
                 </div>
               </div>
@@ -301,7 +323,10 @@ function TemplatesPage() {
 
               {/* Decorative Bottom Line */}
               <div className="z-10 w-full px-8 mb-4">
-                <div className="h-0.5 w-full rounded" style={{ backgroundColor: layout.primaryColor }} />
+                <div
+                  className="h-0.5 w-full rounded"
+                  style={{ backgroundColor: layout.primaryColor }}
+                />
               </div>
             </div>
           </div>
@@ -448,4 +473,3 @@ export function ApiError({ message, onRetry }: { message: string; onRetry: () =>
     </div>
   );
 }
-

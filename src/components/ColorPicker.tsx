@@ -6,7 +6,15 @@ import "./color-picker.css";
 
 function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace("#", "");
-  const num = parseInt(h.length === 3 ? h.split("").map((c) => c + c).join("") : h, 16);
+  const num = parseInt(
+    h.length === 3
+      ? h
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : h,
+    16,
+  );
   return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
 }
 

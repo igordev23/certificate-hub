@@ -27,8 +27,11 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
 export const api = {
   listTemplates: () => http<Template[]>("/api/templates"),
   getTemplate: (id: string) => http<Template>(`/api/templates/${id}`),
-  createTemplate: (body: { name: string; description?: string; layoutConfig?: Record<string, unknown> }) =>
-    http<Template>("/api/templates", { method: "POST", body: JSON.stringify(body) }),
+  createTemplate: (body: {
+    name: string;
+    description?: string;
+    layoutConfig?: Record<string, unknown>;
+  }) => http<Template>("/api/templates", { method: "POST", body: JSON.stringify(body) }),
   updateTemplate: (id: string, body: Partial<Template>) =>
     http<Template>(`/api/templates/${id}`, { method: "PUT", body: JSON.stringify(body) }),
   deleteTemplate: (id: string) => http<void>(`/api/templates/${id}`, { method: "DELETE" }),

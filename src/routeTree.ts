@@ -1,1 +1,1 @@
-export { routeTree } from './routeTree.gen';
+export { routeTree } from "./routeTree.gen";

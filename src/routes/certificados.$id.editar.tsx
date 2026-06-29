@@ -27,9 +27,7 @@ function CertificadoEdit() {
   const pathname = typeof window !== "undefined" ? window.location.pathname : "";
   const parts = pathname.split("/").filter(Boolean);
   const id =
-    parts.length >= 2 && parts[parts.length - 1] === "editar"
-      ? parts[parts.length - 2]
-      : "";
+    parts.length >= 2 && parts[parts.length - 1] === "editar" ? parts[parts.length - 2] : "";
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -135,9 +133,7 @@ function CertificadoEdit() {
               <BadgeCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
             )}
             <div>
-              <div className="font-medium text-sm">
-                Certificado {expired ? "vencido" : "ativo"}
-              </div>
+              <div className="font-medium text-sm">Certificado {expired ? "vencido" : "ativo"}</div>
               <div className="text-xs text-muted-foreground mt-0.5">
                 {expired
                   ? "A data de validade já passou. Renove para ativar."
@@ -243,7 +239,10 @@ function CertificadoEdit() {
                 onClick={save}
                 disabled={saving}
                 className="px-5 py-2 rounded-lg text-primary-foreground font-medium text-sm inline-flex items-center gap-2 transition-all duration-200 hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100"
-                style={{ background: "var(--gradient-primary)", boxShadow: "var(--shadow-elegant)" }}
+                style={{
+                  background: "var(--gradient-primary)",
+                  boxShadow: "var(--shadow-elegant)",
+                }}
               >
                 {saving ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

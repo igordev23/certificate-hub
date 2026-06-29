@@ -11,7 +11,11 @@ interface ErrorAlertProps {
   onDismiss?: () => void;
 }
 
-export function ErrorAlert({ title = "Erro ao emitir certificado", errors, onDismiss }: ErrorAlertProps) {
+export function ErrorAlert({
+  title = "Erro ao emitir certificado",
+  errors,
+  onDismiss,
+}: ErrorAlertProps) {
   if (errors.length === 0) return null;
 
   const errorsByField = errors.reduce(
@@ -20,7 +24,7 @@ export function ErrorAlert({ title = "Erro ao emitir certificado", errors, onDis
       acc[err.field].push(err.message);
       return acc;
     },
-    {} as Record<string, string[]>
+    {} as Record<string, string[]>,
   );
 
   return (
@@ -33,10 +37,14 @@ export function ErrorAlert({ title = "Erro ao emitir certificado", errors, onDis
             <div className="space-y-2 text-sm">
               {Object.entries(errorsByField).map(([field, messages]) => (
                 <div key={field}>
-                  <p className="font-medium text-destructive/90 capitalize">{formatFieldName(field)}</p>
+                  <p className="font-medium text-destructive/90 capitalize">
+                    {formatFieldName(field)}
+                  </p>
                   <ul className="list-disc list-inside text-destructive/80 space-y-1 ml-1">
                     {messages.map((msg, idx) => (
-                      <li key={idx} className="text-xs">{msg}</li>
+                      <li key={idx} className="text-xs">
+                        {msg}
+                      </li>
                     ))}
                   </ul>
                 </div>

@@ -47,16 +47,22 @@ function TemplateEdit() {
   useEffect(() => {
     let active = true;
     setLoading(true);
-    api.getTemplate(id)
+    api
+      .getTemplate(id)
       .then((t) => {
         if (!active) return;
         setName(t.name);
         setDescription(t.description || "");
-        setLayout({ ...DEFAULT_LAYOUT, ...(t.layoutConfig as Partial<TemplateLayoutConfig> || {}) });
+        setLayout({
+          ...DEFAULT_LAYOUT,
+          ...((t.layoutConfig as Partial<TemplateLayoutConfig>) || {}),
+        });
       })
       .catch((e) => setError((e as Error).message))
       .finally(() => active && setLoading(false));
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [id]);
 
   async function save() {
@@ -71,12 +77,22 @@ function TemplateEdit() {
     }
   }
 
-  if (loading) return <div className="p-6 grid place-items-center"><Loader2 className="w-5 h-5 animate-spin" /></div>;
+  if (loading)
+    return (
+      <div className="p-6 grid place-items-center">
+        <Loader2 className="w-5 h-5 animate-spin" />
+      </div>
+    );
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <button onClick={() => navigate({ to: "/templates" })} className="p-2 rounded border border-border"><ChevronLeft className="w-4 h-4" /></button>
+        <button
+          onClick={() => navigate({ to: "/templates" })}
+          className="p-2 rounded border border-border"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
         <PageHeader title="Editar template" description="Ajuste nome e aparência do template." />
         <div />
       </div>
@@ -86,20 +102,46 @@ function TemplateEdit() {
       <div className="bg-card border border-border rounded-xl p-5 space-y-4">
         <div>
           <label className="text-sm font-medium">Nome</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} className="mt-1 w-full px-3 py-2 rounded border border-input" />
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="mt-1 w-full px-3 py-2 rounded border border-input"
+          />
         </div>
         <div>
           <label className="text-sm font-medium">Descrição</label>
-          <input value={description} onChange={(e) => setDescription(e.target.value)} className="mt-1 w-full px-3 py-2 rounded border border-input" />
+          <input
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="mt-1 w-full px-3 py-2 rounded border border-input"
+          />
         </div>
 
-        <ColorPicker label="Cor primária" value={layout.primaryColor} onChange={(hex) => setLayout({ ...layout, primaryColor: hex })} />
-        <ColorPicker label="Cor de fundo" value={layout.backgroundColor} onChange={(hex) => setLayout({ ...layout, backgroundColor: hex })} />
+        <ColorPicker
+          label="Cor primária"
+          value={layout.primaryColor}
+          onChange={(hex) => setLayout({ ...layout, primaryColor: hex })}
+        />
+        <ColorPicker
+          label="Cor de fundo"
+          value={layout.backgroundColor}
+          onChange={(hex) => setLayout({ ...layout, backgroundColor: hex })}
+        />
 
         <div className="flex justify-end gap-2">
-          <button onClick={() => navigate({ to: "/templates" })} className="px-4 py-2 rounded border">Cancelar</button>
-          <button onClick={save} disabled={saving} className="px-4 py-2 rounded bg-primary text-primary-foreground inline-flex items-center gap-2">
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} Salvar
+          <button
+            onClick={() => navigate({ to: "/templates" })}
+            className="px-4 py-2 rounded border"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={save}
+            disabled={saving}
+            className="px-4 py-2 rounded bg-primary text-primary-foreground inline-flex items-center gap-2"
+          >
+            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}{" "}
+            Salvar
           </button>
         </div>
       </div>

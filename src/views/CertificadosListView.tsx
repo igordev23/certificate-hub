@@ -103,7 +103,10 @@ export function CertificadosListView() {
             <AlertTriangle className="w-8 h-8 text-destructive mx-auto mb-3" />
             <div className="text-destructive font-semibold mb-2">Erro ao carregar certificados</div>
             <div className="text-sm text-muted-foreground mb-4">{error}</div>
-            <button onClick={load} className="px-4 py-2 rounded-lg border border-border text-sm hover:bg-secondary transition-colors">
+            <button
+              onClick={load}
+              className="px-4 py-2 rounded-lg border border-border text-sm hover:bg-secondary transition-colors"
+            >
               Tentar novamente
             </button>
           </div>
@@ -129,7 +132,9 @@ export function CertificadosListView() {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-semibold text-[15px] truncate max-w-[180px] sm:max-w-none">{c.recipientName}</span>
+                        <span className="font-semibold text-[15px] truncate max-w-[180px] sm:max-w-none">
+                          {c.recipientName}
+                        </span>
                         <StatusBadge certificate={c} />
                       </div>
                       <div className="flex items-center gap-3 mt-0.5 text-sm text-muted-foreground">
@@ -147,63 +152,63 @@ export function CertificadosListView() {
                   </div>
 
                   <div className="flex items-center justify-end gap-1 mt-2 sm:mt-0 border-t sm:border-t-0 border-border/50 pt-2 sm:pt-0">
-                  <button
-                    title="Copiar código"
-                    onClick={() => copiar(c)}
-                    className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors relative"
-                  >
-                    {copied === c.id ? (
-                      <Check className="w-4 h-4 text-emerald-500" />
-                    ) : (
-                      <Copy className="w-4 h-4" />
-                    )}
-                  </button>
-
-                  {editId === c.id ? (
-                    <div className="flex items-center gap-1.5">
-                      <input
-                        type="date"
-                        defaultValue={c.validityDate.slice(0, 10)}
-                        onChange={(e) => setNovaValidade(e.target.value)}
-                        className="px-2 py-1.5 rounded-lg border border-input text-xs bg-background w-32"
-                      />
-                      <button
-                        onClick={() => salvarValidade(c.id)}
-                        className="px-2.5 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium"
-                      >
-                        OK
-                      </button>
-                    </div>
-                  ) : (
                     <button
-                      title="Editar validade"
-                      onClick={() => {
-                        setEditId(c.id);
-                        setNovaValidade(c.validityDate.slice(0, 10));
-                      }}
+                      title="Copiar código"
+                      onClick={() => copiar(c)}
+                      className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors relative"
+                    >
+                      {copied === c.id ? (
+                        <Check className="w-4 h-4 text-emerald-500" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
+                    </button>
+
+                    {editId === c.id ? (
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="date"
+                          defaultValue={c.validityDate.slice(0, 10)}
+                          onChange={(e) => setNovaValidade(e.target.value)}
+                          className="px-2 py-1.5 rounded-lg border border-input text-xs bg-background w-32"
+                        />
+                        <button
+                          onClick={() => salvarValidade(c.id)}
+                          className="px-2.5 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium"
+                        >
+                          OK
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        title="Editar validade"
+                        onClick={() => {
+                          setEditId(c.id);
+                          setNovaValidade(c.validityDate.slice(0, 10));
+                        }}
+                        className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                      >
+                        <CalendarCheck className="w-4 h-4" />
+                      </button>
+                    )}
+
+                    <a
+                      href={api.pdfUrl(c.id)}
+                      target="_blank"
+                      rel="noreferrer"
+                      title="Baixar PDF"
                       className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                     >
-                      <CalendarCheck className="w-4 h-4" />
-                    </button>
-                  )}
+                      <Download className="w-4 h-4" />
+                    </a>
 
-                      <a
-                        href={api.pdfUrl(c.id)}
-                        target="_blank"
-                        rel="noreferrer"
-                        title="Baixar PDF"
-                        className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-                      >
-                        <Download className="w-4 h-4" />
-                      </a>
-
-                      <Link
-                        to={`/certificados/${c.id}/editar` as any}
-                        className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-                        title="Editar certificado"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Link>
+                    <Link
+                      to={`/certificados/${c.id}/editar` as any}
+                      className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                      title="Editar certificado"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
               </div>
