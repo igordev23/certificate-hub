@@ -1,284 +1,192 @@
 
-<p align="center">
-  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" alt="React 19" />
-  <img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white" alt="Vite 7" />
-  <img src="https://img.shields.io/badge/TanStack_Router-1.168-FF4154?logo=reactrouter&logoColor=white" alt="TanStack Router" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS 4" />
-  <img src="https://img.shields.io/badge/shadcn/ui-latest-000000?logo=shadcnui&logoColor=white" alt="shadcn/ui" />
-  <img src="https://img.shields.io/badge/coverage-≥75%25-brightgreen" alt="Coverage" />
-</p>
-
-<h1 align="center">📜 Certificate Hub</h1>
-
-<p align="center">
-  Sistema completo para <strong>emissão, gestão e validação</strong> de certificados digitais.
-  <br />
-  Crie templates personalizados, emita certificados em lote e disponibilize validação pública.
-</p>
-
-<p align="center">
-  <a href="#-sobre">Sobre</a> •
-  <a href="#-funcionalidades">Funcionalidades</a> •
-  <a href="#-stack">Stack</a> •
-  <a href="#-arquitetura">Arquitetura</a> •
-  <a href="#-começando">Começando</a> •
-  <a href="#-scripts">Scripts</a> •
-  <a href="#-estrutura">Estrutura</a> •
-  <a href="#-testes">Testes</a>
-</p>
+<div align="center">
+  <h1>Certificate Hub</h1>
+  <p>
+    <strong>Interface web para emissão, gestão e validação de certificados digitais.</strong>
+  </p>
+  <p>
+    Frontend do <a href="https://github.com/igordev23/certificate-server">Certificate Server</a>.
+    Consome a API REST para gerenciar templates, emitir certificados e disponibilizar verificação pública.
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" alt="React 19">
+    <img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
+    <img src="https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white" alt="Vite 7">
+    <img src="https://img.shields.io/badge/TanStack_Router-1.168-FF4154?logo=reactrouter&logoColor=white" alt="TanStack Router">
+    <img src="https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS 4">
+    <img src="https://img.shields.io/badge/shadcn/ui-latest-000000?logo=shadcnui&logoColor=white" alt="shadcn/ui">
+    <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="Version">
+    <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+  </p>
+</div>
 
 ---
 
-## 📋 Sobre
+## 📋 Sumário
 
-O **Certificate Hub** é uma plataforma web moderna para gerenciamento de certificados digitais. Ele permite que instituições de ensino, plataformas de cursos e empresas criem templates personalizados, emitam certificados com códigos únicos de verificação, e disponibilizem um canal público para validação de autenticidade.
-
-O projeto adota uma arquitetura em camadas com React 19, TypeScript e TanStack Router, garantindo separação clara de responsabilidades, tipagem estática e navegação eficiente.
-
-### Problema resolvido
-
-- ❌ Dificuldade em gerenciar certificados manualmente
-- ❌ Ausência de canal de verificação pública contra fraudes
-- ❌ Processo manual e propenso a erros
-- ✅ Plataforma unificada de emissão e validação
-- ✅ Código único de verificação por certificado
-- ✅ Templates reutilizáveis com layout configurável
+- [Visão Geral](#-visão-geral)
+- [Funcionalidades](#-funcionalidades)
+- [Arquitetura](#-arquitetura)
+- [Stack Tecnológico](#-stack-tecnológico)
+- [Pré-requisitos](#-pré-requisitos)
+- [Instalação e Execução](#-instalação-e-execução)
+- [Variáveis de Ambiente](#-variáveis-de-ambiente)
+- [Testes](#-testes)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Desenvolvimento](#-desenvolvimento)
+- [Roadmap](#-roadmap)
+- [Licença](#-licença)
+- [Autor](#-autor)
 
 ---
 
-## 🖼️ Screenshots
+## 🧭 Visão Geral
+
+O **Certificate Hub** é o frontend oficial do ecossistema Certificate Server. Ele fornece uma interface web para instituições de ensino, empresas e organizações gerenciarem certificados digitais de forma prática.
+
+O projeto foi construído com React 19, TypeScript e TanStack Router, adotando uma **arquitetura em camadas** que separa responsabilidades entre views, lógica de estado (view-models), serviços HTTP e modelos de domínio.
+
+> ⚠️ **MVP** — Este é um produto mínimo viável. Ainda não há autenticação implementada; todas as rotas são públicas.
+
+### Screenshot
 
 <div align="center">
-  <img src="/public/screenshot.png" alt="Certificate Hub - Dashboard" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
+  <img src="/public/screenshot.png" alt="Certificate Hub - Landing Page" width="800" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />
   <p><em>Landing page do Certificate Hub</em></p>
 </div>
 
 ---
 
-## ✨ Funcionalidades
+## ⚙️ Funcionalidades
 
-### Gestão de Certificados
-- Emissão individual ou em lote de certificados
-  - Nome do destinatário, CPF, curso, carga horária
-  - Associação a template personalizado
-  - Geração automática de código de verificação
-  - Definição de data de validade
-- Listagem com busca e filtros
-- Edição e cancelamento
-
-### Templates
-- Criação de templates com layout configurável (`layoutConfig`)
-- Listagem e edição de templates existentes
-- Reutilização entre múltiplos certificados
-
-### Dashboard
-- Visão geral com métricas e indicadores
-- Gráficos com Recharts para análise de dados
-- Acompanhamento de envios
-
-### Validação Pública
-- Página pública de verificação (`/verificar`)
-- Validação por código único de verificação
-- Confirmação de autenticidade do certificado
-
-### Técnicas
-- UI componentizada com **shadcn/ui** + **Radix UI** (46+ primitives acessíveis)
-- Formulários com validação via **react-hook-form** + **Zod**
-- Estado do servidor gerenciado com **TanStack Query** (cache, refetch, mutations)
-- Navegação type-safe com **TanStack Router** (file-based routing)
-- Notificações toast com **Sonner**
-- Testes unitários (Jest + Testing Library) e E2E (Playwright)
+| Funcionalidade | Descrição |
+|---|---|
+| **Gestão de Certificados** | Emissão, listagem, edição e cancelamento de certificados |
+| **Templates Personalizados** | CRUD de templates com layout configurável (cores, fontes, bordas) |
+| **Dashboard** | Visão geral com métricas, gráficos (Recharts) e acompanhamento de envios |
+| **Verificação Pública** | Página aberta para validação de autenticidade via CPF + código |
+| **UI Componentizada** | shadcn/ui + Radix UI com mais de 46 primitivas acessíveis |
+| **Formulários Validados** | react-hook-form + Zod com schemas tipados |
+| **Testes Automatizados** | Testes unitários (Jest + Testing Library) e E2E (Playwright) |
 
 ---
 
-## 🛠 Stack
-
-| Categoria | Tecnologias |
-|-----------|------------|
-| **Core** | React 19, TypeScript 5.8, Vite 7 |
-| **Roteamento** | TanStack Router (file-based, type-safe) |
-| **Estado** | TanStack Query 5 (server state) |
-| **Estilização** | Tailwind CSS 4, tw-animate-css, clsx, tailwind-merge |
-| **UI** | shadcn/ui, Radix UI, Lucide React, Sonner |
-| **Formulários** | react-hook-form, Zod, @hookform/resolvers |
-| **Gráficos** | Recharts |
-| **Data** | date-fns |
-| **Testes** | Jest 30 + Testing Library, Playwright |
-| **Ferramentas** | ESLint 9, Prettier 3, Husky (opcional) |
-
----
-
-## 🏗 Arquitetura
+## 🏗️ Arquitetura
 
 O projeto segue uma **arquitetura em camadas** com React:
 
 ```
 src/
-├── models/        # Tipos e interfaces
-├── services/      # Comunicação com API (HTTP)
+├── models/        # Tipos e interfaces (Certificate, Template, Envio, Verify)
+├── services/      # Comunicação HTTP com a API
 ├── view-models/   # Hooks de estado e lógica de negócio
 ├── views/         # Componentes de página (View)
 ├── hooks/         # Hooks customizados genéricos
 ├── components/    # Componentes reutilizáveis (incl. shadcn/ui)
 ├── lib/           # Utilitários e configurações
-└── routes/        # Definição de rotas (TanStack Router)
+└── routes/        # Definição de rotas (TanStack Router file-based)
 ```
 
-**Fluxo de dados:**
+### Fluxo de dados
+
 1. `Route` → carrega `View`
-2. `View` → consome `ViewModel` (hooks com estado e queries)
+2. `View` → consome `ViewModel` (hooks TanStack Query)
 3. `ViewModel` → usa `Service` para comunicação HTTP
 4. `Service` → retorna dados tipados (`Model`)
-5. `TanStack Query` → gerencia cache, loading e mutations
+5. `TanStack Query` → gerencia cache, loading states e mutations
 
-### Rotas da aplicação
+### Rotas
 
-| Rota | Descrição | Autenticada |
-|------|-----------|:---:|
-| `/` | Landing page | ❌ |
-| `/dashboard` | Dashboard com métricas | ✅ |
-| `/certificados` | Listagem de certificados | ✅ |
-| `/certificados/novo` | Emitir novo certificado | ✅ |
-| `/certificados/:id/editar` | Editar certificado | ✅ |
-| `/templates` | Listagem de templates | ✅ |
-| `/templates/:id/edit` | Editar template | ✅ |
-| `/envios` | Gerenciar envios | ✅ |
-| `/verificar` | Validação pública de certificado | ❌ |
+| Rota | Descrição |
+|------|-----------|
+| `/` | Landing page |
+| `/dashboard` | Dashboard com métricas |
+| `/certificados` | Listagem de certificados |
+| `/certificados/novo` | Emitir novo certificado |
+| `/certificados/:id/editar` | Editar certificado |
+| `/templates` | Listagem de templates |
+| `/templates/:id/edit` | Editar template |
+| `/envios` | Gerenciar envios |
+| `/verificar` | Validação pública de certificado |
 
 ---
 
-## 🚀 Começando
+## 🛠️ Stack Tecnológico
 
-### Pré-requisitos
+| Tecnologia | Versão | Finalidade |
+|---|---|---|
+| **React** | 19 | Biblioteca de UI |
+| **TypeScript** | 5.8 | Linguagem com tipagem estática |
+| **Vite** | 7 | Bundler e servidor de desenvolvimento |
+| **TanStack Router** | 1.168 | Roteamento type-safe (file-based) |
+| **TanStack Query** | 5 | Gerenciamento de estado do servidor |
+| **Tailwind CSS** | 4 | Estilização utilitária |
+| **shadcn/ui** | — | Componentes de interface (Radix UI + Tailwind) |
+| **React Hook Form** | 7 | Gerenciamento de formulários |
+| **Zod** | 3 | Validação de schemas |
+| **Recharts** | 2 | Gráficos e visualização de dados |
+| **date-fns** | 4 | Manipulação de datas |
+| **Lucide React** | — | Ícones |
+| **Sonner** | 2 | Notificações toast |
+| **Jest** | 30 | Testes unitários |
+| **Testing Library** | 16 | Testes de componentes React |
+| **Playwright** | 1 | Testes E2E |
+| **ESLint** | 9 | Análise estática |
+| **Prettier** | 3 | Formatação de código |
 
-- Node.js >= 18
-- npm ou bun
+---
 
-### Instalação
+## 📋 Pré-requisitos
+
+- **Node.js** 18 ou superior
+- **npm** 9+ (ou bun)
+- **Certificate Server** rodando (API) — veja o [repositório oficial](https://github.com/igordev23/certificate-server)
+
+---
+
+## 🚀 Instalação e Execução
 
 ```bash
-# Clonar o repositório
-git clone https://github.com/usuario/certificate-hub.git
+# 1. Clone o repositório
+git clone https://github.com/igordev23/certificate-hub.git
 cd certificate-hub
 
-# Instalar dependências
+# 2. Instale as dependências
 npm install
 
-# Configurar variáveis de ambiente
+# 3. Configure as variáveis de ambiente
 cp .env.example .env
 # Edite .env com a URL da API:
-# VITE_API_URL=https://api.exemplo.com
-```
+# VITE_API_URL=http://localhost:3000
 
-### Desenvolvimento
-
-```bash
-# Iniciar servidor de desenvolvimento
+# 4. Inicie o servidor de desenvolvimento
 npm run dev
-
-# Executar testes em modo watch
-npm test -- --watch
-
-# Verificar lint
-npm run lint
 ```
+
+O servidor estará disponível em **http://localhost:5173**.
 
 ### Build de produção
 
 ```bash
-# Build otimizado
 npm run build
-
-# Preview do build local
 npm run preview
 ```
 
 ---
 
-## 📦 Scripts
+## 🔐 Variáveis de Ambiente
 
-| Script | Descrição |
-|--------|-----------|
-| `npm run dev` | Inicia servidor de desenvolvimento (Vite) |
-| `npm run build` | Build de produção otimizado |
-| `npm run build:dev` | Build em modo desenvolvimento |
-| `npm run preview` | Preview local do build |
-| `npm run lint` | Verifica código com ESLint |
-| `npm run format` | Formata código com Prettier |
-| `npm test` | Executa testes unitários com cobertura (mín. 75%) |
-| `npm run test:no-coverage` | Executa testes sem cobertura |
-| `npm run test:e2e` | Executa testes E2E com Playwright |
-| `cp .env.example .env` | Configura variáveis de ambiente |
+| Variável | Obrigatória | Descrição |
+|---|---|---|
+| `VITE_API_URL` | ✅ | URL base da API REST do Certificate Server |
 
-### Variáveis de ambiente
+### Arquivo `.env` de exemplo
 
-| Variável | Descrição | Obrigatória |
-|----------|-----------|:-----------:|
-| `VITE_API_URL` | URL base da API REST | ✅ |
-
----
-
-## 📁 Estrutura do projeto
-
+```env
+VITE_API_URL=http://localhost:3000
 ```
-certificate-hub/
-├── e2e/                          # Testes E2E (Playwright)
-│   └── fluxo-completo.spec.ts   # Teste de fluxo completo
-├── public/                       # Assets estáticos
-├── src/
-│   ├── components/               # Componentes reutilizáveis
-│   │   ├── ui/                  # Componentes shadcn/ui (46+)
-│   │   ├── AppLayout.tsx        # Layout principal
-│   │   ├── ColorPicker.tsx      # Seletor de cor
-│   │   ├── ErrorAlert.tsx       # Alerta de erro
-│   │   └── PageHeader.tsx       # Cabeçalho de página
-│   ├── hooks/                    # Hooks customizados
-│   │   └── use-mobile.tsx       # Detecção de dispositivo móvel
-│   ├── lib/                      # Utilitários e configurações
-│   │   ├── api.ts              # Configuração do cliente HTTP
-│   │   └── utils.ts            # Funções utilitárias (cn)
-│   ├── models/                   # Tipos e interfaces (Model)
-│   │   ├── certificate.ts      # Certificate, isExpired
-│   │   ├── envio.ts            # Envio
-│   │   ├── template.ts         # Template
-│   │   └── verify.ts           # Verify
-│   ├── routes/                   # Rotas (TanStack Router)
-│   │   ├── __root.tsx           # Layout raiz
-│   │   ├── index.tsx            # Landing page
-│   │   ├── verificar.tsx        # Validação pública
-│   │   └── _app.*.tsx           # Rotas autenticadas
-│   ├── services/                 # Camada de API
-│   │   ├── api.ts              # HTTP client
-│   │   └── envios.ts           # Serviço de envios
-│   ├── view-models/              # Lógica de estado (ViewModel)
-│   │   ├── useDashboardViewModel.ts
-│   │   ├── useCertificatesViewModel.ts
-│   │   ├── useEmitCertificateViewModel.ts
-│   │   ├── useEnviosViewModel.ts
-│   │   ├── useTemplatesViewModel.ts
-│   │   └── useVerifyViewModel.ts
-│   ├── views/                    # Componentes de página (View)
-│   │   ├── DashboardView.tsx
-│   │   ├── CertificadosListView.tsx
-│   │   ├── NovoCertificadoView.tsx
-│   │   ├── TemplatesView.tsx
-│   │   ├── EnviosView.tsx
-│   │   └── VerificarView.tsx
-│   ├── main.tsx                  # Entry point
-│   ├── router.tsx                # Configuração do roteador
-│   ├── routeTree.ts              # Árvore de rotas
-│   └── styles.css                # Estilos globais (Tailwind)
-├── tests/                        # Testes unitários
-├── index.html                    # HTML de entrada
-├── vite.config.ts                # Configuração Vite
-├── tsconfig.json                 # Configuração TypeScript
-├── eslint.config.js              # Configuração ESLint
-├── .prettierrc                   # Configuração Prettier
-├── jest.config.cjs               # Configuração Jest
-├── components.json               # Configuração shadcn/ui
-└── .env.example                  # Exemplo de variáveis de ambiente
-```
+
+> ⚠️ **Nunca** commite o arquivo `.env`. Apenas o `.env.example` (com valor vazio) deve ser versionado.
 
 ---
 
@@ -302,44 +210,123 @@ npm run test:no-coverage
 ### End-to-End (Playwright)
 
 ```bash
-# Executar testes E2E
 npm run test:e2e
 ```
 
-- Cobertura do fluxo completo: criar template → emitir certificado → verificar
+- Fluxo completo: criar template → emitir certificado → verificar
 - Configuração em `e2e/playwright.config.ts`
 
 ---
 
-## 🤝 Contribuindo
+## 📁 Estrutura do Projeto
 
-Contribuições são bem-vindas! Siga os passos:
+```
+certificate-hub/
+├── e2e/                          # Testes E2E (Playwright)
+│   └── fluxo-completo.spec.ts
+├── public/                       # Assets estáticos
+│   └── screenshot.png           # Screenshot do projeto
+├── src/
+│   ├── components/               # Componentes reutilizáveis
+│   │   ├── ui/                  # shadcn/ui (46+ componentes)
+│   │   ├── AppLayout.tsx
+│   │   ├── ColorPicker.tsx
+│   │   ├── ErrorAlert.tsx
+│   │   └── PageHeader.tsx
+│   ├── hooks/
+│   │   └── use-mobile.tsx
+│   ├── lib/
+│   │   ├── api.ts               # Cliente HTTP
+│   │   └── utils.ts             # cn() e utilitários
+│   ├── models/                   # Tipos e interfaces
+│   │   ├── certificate.ts
+│   │   ├── envio.ts
+│   │   ├── template.ts
+│   │   └── verify.ts
+│   ├── routes/
+│   │   ├── __root.tsx
+│   │   ├── index.tsx
+│   │   ├── verificar.tsx
+│   │   └── _app.*.tsx
+│   ├── services/
+│   │   ├── api.ts
+│   │   └── envios.ts
+│   ├── view-models/
+│   │   ├── useCertificatesViewModel.ts
+│   │   ├── useDashboardViewModel.ts
+│   │   ├── useEmitCertificateViewModel.ts
+│   │   ├── useEnviosViewModel.ts
+│   │   ├── useTemplatesViewModel.ts
+│   │   └── useVerifyViewModel.ts
+│   ├── views/
+│   │   ├── CertificadosListView.tsx
+│   │   ├── DashboardView.tsx
+│   │   ├── EnviosView.tsx
+│   │   ├── NovoCertificadoView.tsx
+│   │   ├── TemplatesView.tsx
+│   │   └── VerificarView.tsx
+│   ├── main.tsx
+│   ├── router.tsx
+│   ├── routeTree.ts
+│   └── styles.css
+├── tests/                        # Testes unitários
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+├── eslint.config.js
+├── .prettierrc
+├── jest.config.cjs
+├── components.json
+└── .env.example
+```
 
-1. Faça um fork do projeto
-2. Crie uma branch: `git checkout -b feature/nova-feature`
-3. Commit suas mudanças: `git commit -m 'feat: adiciona nova feature'`
-4. Push: `git push origin feature/nova-feature`
-5. Abra um Pull Request
+---
 
-### Padrões de commit
+## 💻 Desenvolvimento
 
-Sugerimos seguir [Conventional Commits](https://www.conventionalcommits.org/):
+### Comandos úteis
 
-- `feat:` nova funcionalidade
-- `fix:` correção de bug
-- `refactor:` refatoração de código
-- `test:` adição ou alteração de testes
-- `docs:` documentação
-- `chore:` tarefas de manutenção
+| Comando | Descrição |
+|---|---|
+| `npm run dev` | Inicia servidor de desenvolvimento |
+| `npm run build` | Compila para produção |
+| `npm run build:dev` | Build em modo desenvolvimento |
+| `npm run preview` | Preview local do build |
+| `npm run lint` | Verifica código com ESLint |
+| `npm run format` | Formata código com Prettier |
+| `npm test` | Executa testes unitários com cobertura |
+| `npm run test:no-coverage` | Testes sem cobertura |
+| `npm run test:e2e` | Testes E2E com Playwright |
+
+### Convenções de código
+
+- **TypeScript** estrito — tipos explícitos em todas as interfaces públicas
+- **Arquitetura em camadas** — imports seguem direção: View → ViewModel → Service → Model
+- **Componentes shadcn/ui** — personalizados via `className` com Tailwind
+- **Nomes descritivos** — componentes, hooks e arquivos com nomes que refletem sua responsabilidade
+- **Testes espelhados** — `tests/` segue a mesma estrutura de `src/`
+
+---
+
+## 🗺️ Roadmap
+
+Funcionalidades planejadas para versões futuras:
+
+- [ ] **Autenticação** — Proteger rotas administrativas com login JWT
+- [ ] **Emissão em Lote** — Upload de CSV para emitir múltiplos certificados de uma vez
+- [ ] **Envio por E-mail** — Disparo automático do PDF por e-mail ao emitir
+- [ ] **Upload de Logo** — Upload de logotipo personalizado por template
+- [ ] **Modo Escuro** — Tema dark com Tailwind CSS
+- [ ] **PWA** — Suporte a aplicação web progressiva para uso offline parcial
 
 ---
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está licenciado sob a licença **MIT**. Consulte o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-<p align="center">
-  Desenvolvido com ❤️ por <strong>Igor Dev</strong>
-</p>
+## 👤 Autor
+
+**Igor** — *Desenvolvimento e Arquitetura*
