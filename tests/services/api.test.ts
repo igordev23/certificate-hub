@@ -1,5 +1,6 @@
 import { api, isExpired } from "../../src/services/api";
 
+const BASE_URL = process.env.VITE_API_URL || "http://localhost:3000";
 const mockFetch = jest.fn();
 globalThis.fetch = mockFetch;
 
