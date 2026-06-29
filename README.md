@@ -34,7 +34,7 @@
 
 O **Certificate Hub** é uma plataforma web moderna para gerenciamento de certificados digitais. Ele permite que instituições de ensino, plataformas de cursos e empresas criem templates personalizados, emitam certificados com códigos únicos de verificação, e disponibilizem um canal público para validação de autenticidade.
 
-O projeto adota uma arquitetura MVVM (Model-View-ViewModel) com React 19, TypeScript e TanStack Router, garantindo separação clara de responsabilidades, tipagem estática e navegação eficiente.
+O projeto adota uma arquitetura em camadas com React 19, TypeScript e TanStack Router, garantindo separação clara de responsabilidades, tipagem estática e navegação eficiente.
 
 ### Problema resolvido
 
