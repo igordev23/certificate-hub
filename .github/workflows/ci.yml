@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  VITE_API_URL: https://certificate-server-zd0m.onrender.com
+
 jobs:
   quality:
     name: Lint & Type Check
@@ -93,5 +96,3 @@ jobs:
 
       - name: Run E2E Tests
         run: npm run test:e2e
-        env:
-          VITE_API_URL: ${{ vars.VITE_API_URL || 'http://localhost:3000' }}
