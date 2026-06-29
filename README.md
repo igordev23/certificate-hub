@@ -1,4 +1,3 @@
-
 <div align="center">
   <h1>Certificate Hub</h1>
   <p>
@@ -59,15 +58,15 @@ O projeto foi construído com React 19, TypeScript e TanStack Router, adotando u
 
 ## ⚙️ Funcionalidades
 
-| Funcionalidade | Descrição |
-|---|---|
-| **Gestão de Certificados** | Emissão, listagem, edição e cancelamento de certificados |
-| **Templates Personalizados** | CRUD de templates com layout configurável (cores, fontes, bordas) |
-| **Dashboard** | Visão geral com métricas, gráficos (Recharts) e acompanhamento de envios |
-| **Verificação Pública** | Página aberta para validação de autenticidade via CPF + código |
-| **UI Componentizada** | shadcn/ui + Radix UI com mais de 46 primitivas acessíveis |
-| **Formulários Validados** | react-hook-form + Zod com schemas tipados |
-| **Testes Automatizados** | Testes unitários (Jest + Testing Library) e E2E (Playwright) |
+| Funcionalidade               | Descrição                                                                |
+| ---------------------------- | ------------------------------------------------------------------------ |
+| **Gestão de Certificados**   | Emissão, listagem, edição e cancelamento de certificados                 |
+| **Templates Personalizados** | CRUD de templates com layout configurável (cores, fontes, bordas)        |
+| **Dashboard**                | Visão geral com métricas, gráficos (Recharts) e acompanhamento de envios |
+| **Verificação Pública**      | Página aberta para validação de autenticidade via CPF + código           |
+| **UI Componentizada**        | shadcn/ui + Radix UI com mais de 46 primitivas acessíveis                |
+| **Formulários Validados**    | react-hook-form + Zod com schemas tipados                                |
+| **Testes Automatizados**     | Testes unitários (Jest + Testing Library) e E2E (Playwright)             |
 
 ---
 
@@ -97,42 +96,42 @@ src/
 
 ### Rotas
 
-| Rota | Descrição |
-|------|-----------|
-| `/` | Landing page |
-| `/dashboard` | Dashboard com métricas |
-| `/certificados` | Listagem de certificados |
-| `/certificados/novo` | Emitir novo certificado |
-| `/certificados/:id/editar` | Editar certificado |
-| `/templates` | Listagem de templates |
-| `/templates/:id/edit` | Editar template |
-| `/envios` | Gerenciar envios |
-| `/verificar` | Validação pública de certificado |
+| Rota                       | Descrição                        |
+| -------------------------- | -------------------------------- |
+| `/`                        | Landing page                     |
+| `/dashboard`               | Dashboard com métricas           |
+| `/certificados`            | Listagem de certificados         |
+| `/certificados/novo`       | Emitir novo certificado          |
+| `/certificados/:id/editar` | Editar certificado               |
+| `/templates`               | Listagem de templates            |
+| `/templates/:id/edit`      | Editar template                  |
+| `/envios`                  | Gerenciar envios                 |
+| `/verificar`               | Validação pública de certificado |
 
 ---
 
 ## 🛠️ Stack Tecnológico
 
-| Tecnologia | Versão | Finalidade |
-|---|---|---|
-| **React** | 19 | Biblioteca de UI |
-| **TypeScript** | 5.8 | Linguagem com tipagem estática |
-| **Vite** | 7 | Bundler e servidor de desenvolvimento |
-| **TanStack Router** | 1.168 | Roteamento type-safe (file-based) |
-| **TanStack Query** | 5 | Gerenciamento de estado do servidor |
-| **Tailwind CSS** | 4 | Estilização utilitária |
-| **shadcn/ui** | — | Componentes de interface (Radix UI + Tailwind) |
-| **React Hook Form** | 7 | Gerenciamento de formulários |
-| **Zod** | 3 | Validação de schemas |
-| **Recharts** | 2 | Gráficos e visualização de dados |
-| **date-fns** | 4 | Manipulação de datas |
-| **Lucide React** | — | Ícones |
-| **Sonner** | 2 | Notificações toast |
-| **Jest** | 30 | Testes unitários |
-| **Testing Library** | 16 | Testes de componentes React |
-| **Playwright** | 1 | Testes E2E |
-| **ESLint** | 9 | Análise estática |
-| **Prettier** | 3 | Formatação de código |
+| Tecnologia          | Versão | Finalidade                                     |
+| ------------------- | ------ | ---------------------------------------------- |
+| **React**           | 19     | Biblioteca de UI                               |
+| **TypeScript**      | 5.8    | Linguagem com tipagem estática                 |
+| **Vite**            | 7      | Bundler e servidor de desenvolvimento          |
+| **TanStack Router** | 1.168  | Roteamento type-safe (file-based)              |
+| **TanStack Query**  | 5      | Gerenciamento de estado do servidor            |
+| **Tailwind CSS**    | 4      | Estilização utilitária                         |
+| **shadcn/ui**       | —      | Componentes de interface (Radix UI + Tailwind) |
+| **React Hook Form** | 7      | Gerenciamento de formulários                   |
+| **Zod**             | 3      | Validação de schemas                           |
+| **Recharts**        | 2      | Gráficos e visualização de dados               |
+| **date-fns**        | 4      | Manipulação de datas                           |
+| **Lucide React**    | —      | Ícones                                         |
+| **Sonner**          | 2      | Notificações toast                             |
+| **Jest**            | 30     | Testes unitários                               |
+| **Testing Library** | 16     | Testes de componentes React                    |
+| **Playwright**      | 1      | Testes E2E                                     |
+| **ESLint**          | 9      | Análise estática                               |
+| **Prettier**        | 3      | Formatação de código                           |
 
 ---
 
@@ -176,9 +175,9 @@ npm run preview
 
 ## 🔐 Variáveis de Ambiente
 
-| Variável | Obrigatória | Descrição |
-|---|---|---|
-| `VITE_API_URL` | ✅ | URL base da API REST do Certificate Server |
+| Variável       | Obrigatória | Descrição                                  |
+| -------------- | ----------- | ------------------------------------------ |
+| `VITE_API_URL` | ✅          | URL base da API REST do Certificate Server |
 
 ### Arquivo `.env` de exemplo
 
@@ -286,17 +285,17 @@ certificate-hub/
 
 ### Comandos úteis
 
-| Comando | Descrição |
-|---|---|
-| `npm run dev` | Inicia servidor de desenvolvimento |
-| `npm run build` | Compila para produção |
-| `npm run build:dev` | Build em modo desenvolvimento |
-| `npm run preview` | Preview local do build |
-| `npm run lint` | Verifica código com ESLint |
-| `npm run format` | Formata código com Prettier |
-| `npm test` | Executa testes unitários com cobertura |
-| `npm run test:no-coverage` | Testes sem cobertura |
-| `npm run test:e2e` | Testes E2E com Playwright |
+| Comando                    | Descrição                              |
+| -------------------------- | -------------------------------------- |
+| `npm run dev`              | Inicia servidor de desenvolvimento     |
+| `npm run build`            | Compila para produção                  |
+| `npm run build:dev`        | Build em modo desenvolvimento          |
+| `npm run preview`          | Preview local do build                 |
+| `npm run lint`             | Verifica código com ESLint             |
+| `npm run format`           | Formata código com Prettier            |
+| `npm test`                 | Executa testes unitários com cobertura |
+| `npm run test:no-coverage` | Testes sem cobertura                   |
+| `npm run test:e2e`         | Testes E2E com Playwright              |
 
 ### Convenções de código
 
@@ -329,4 +328,4 @@ Este projeto está licenciado sob a licença **MIT**. Consulte o arquivo [LICENS
 
 ## 👤 Autor
 
-**Igor** — *Desenvolvimento e Arquitetura*
+**Igor** — _Desenvolvimento e Arquitetura_
