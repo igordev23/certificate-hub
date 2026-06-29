@@ -102,15 +102,15 @@ O projeto adota uma arquitetura MVVM (Model-View-ViewModel) com React 19, TypeSc
 
 ## 🏗 Arquitetura
 
-O projeto segue o padrão **MVVM (Model-View-ViewModel)**:
+O projeto segue uma **arquitetura em camadas** com React:
 
 ```
 src/
-├── models/        # Tipos e interfaces (Model)
-├── view-models/   # Lógica de estado e actions (ViewModel)
-├── views/         # Componentes de apresentação (View)
-├── services/      # Camada de comunicação com API
-├── hooks/         # Hooks customizados
+├── models/        # Tipos e interfaces
+├── services/      # Comunicação com API (HTTP)
+├── view-models/   # Hooks de estado e lógica de negócio
+├── views/         # Componentes de página (View)
+├── hooks/         # Hooks customizados genéricos
 ├── components/    # Componentes reutilizáveis (incl. shadcn/ui)
 ├── lib/           # Utilitários e configurações
 └── routes/        # Definição de rotas (TanStack Router)
@@ -118,7 +118,7 @@ src/
 
 **Fluxo de dados:**
 1. `Route` → carrega `View`
-2. `View` → consome `ViewModel` (hooks customizados)
+2. `View` → consome `ViewModel` (hooks com estado e queries)
 3. `ViewModel` → usa `Service` para comunicação HTTP
 4. `Service` → retorna dados tipados (`Model`)
 5. `TanStack Query` → gerencia cache, loading e mutations
