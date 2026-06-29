@@ -121,10 +121,7 @@ describe("api methods", () => {
 
   it("getTemplate calls GET with id", async () => {
     await api.getTemplate("tpl-1");
-    expect(mockFetch).toHaveBeenCalledWith(
-      `${BASE_URL}/api/templates/tpl-1`,
-      expect.anything(),
-    );
+    expect(mockFetch).toHaveBeenCalledWith(`${BASE_URL}/api/templates/tpl-1`, expect.anything());
   });
 
   it("createTemplate calls POST with body", async () => {
