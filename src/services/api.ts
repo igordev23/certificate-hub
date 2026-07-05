@@ -56,6 +56,8 @@ export const api = {
       method: "PUT",
       body: JSON.stringify(body),
     }),
+  deleteCertificate: (id: string) =>
+    http<void>(`/api/certificates/${id}`, { method: "DELETE" }),
   pdfUrl: (id: string) => `${API_URL}/api/certificates/${id}/pdf`,
 
   verify: (cpf: string, verificationCode: string) =>

@@ -48,6 +48,16 @@ export function useCertificatesViewModel() {
     }
   }
 
+  async function deletar(id: string) {
+    if (!confirm("Tem certeza que deseja excluir este certificado?")) return;
+    try {
+      await api.deleteCertificate(id);
+      await load();
+    } catch (err) {
+      alert((err as Error).message);
+    }
+  }
+
   function copiar(c: Certificate) {
     navigator.clipboard.writeText(c.verificationCode);
     setCopied(c.id);
@@ -68,6 +78,7 @@ export function useCertificatesViewModel() {
     copied,
     load,
     salvarValidade,
+    deletar,
     copiar,
   };
 }

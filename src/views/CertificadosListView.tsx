@@ -5,6 +5,7 @@ import {
   Loader2,
   Download,
   Pencil,
+  Trash2,
   BadgeCheck,
   AlertTriangle,
   GraduationCap,
@@ -60,6 +61,7 @@ export function CertificadosListView() {
     setNovaValidade,
     copiar,
     salvarValidade,
+    deletar,
     copied,
   } = useCertificatesViewModel();
 
@@ -209,6 +211,14 @@ export function CertificadosListView() {
                     >
                       <Pencil className="w-4 h-4" />
                     </Link>
+
+                    <button
+                      title="Excluir certificado"
+                      onClick={() => deletar(c.id)}
+                      className="p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
               </div>
