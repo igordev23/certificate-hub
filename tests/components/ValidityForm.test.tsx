@@ -54,10 +54,18 @@ jest.mock("../../src/components/PageHeader", () => ({
   PageHeader: ({ action }: any) => <div>{action}</div>,
 }));
 
+jest.mock("../../src/services/pdf", () => ({
+  generateCertificatePdf: jest.fn(() => ({ save: jest.fn() })),
+}));
+
 jest.mock("../../src/services/api", () => ({
   api: {
     pdfUrl: (id: string) => `/pdf/${id}`,
   },
+}));
+
+jest.mock("../../src/components/CertificateQRCode", () => ({
+  CertificateQRCode: () => null,
 }));
 
 jest.mock("../../src/models/certificate", () => ({

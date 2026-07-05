@@ -16,6 +16,8 @@ import {
   CalendarCheck,
 } from "lucide-react";
 import { isExpired } from "@/models/certificate";
+import { CertificateQRCode } from "@/components/CertificateQRCode";
+import { generateCertificatePdf } from "@/services/pdf";
 
 export const Route = createFileRoute("/certificados/$id/editar")({
   head: () => ({ meta: [{ title: "Editar certificado — CertifyHub" }] }),
@@ -215,15 +217,27 @@ function CertificadoEdit() {
                   />
                 </div>
                 <div className="flex items-end gap-3">
-                  <a
-                    href={api.pdfUrl(certificate.id)}
-                    target="_blank"
-                    rel="noreferrer"
+                  <div className="flex flex-col items-center gap-1.5">
+                    <span className="text-[11px] text-muted-foreground font-medium">
+                      Verificação
+                    </span>
+                    <CertificateQRCode
+                      verificationCode={certificate.verificationCode}
+                      recipientCPF={certificate.recipientCPF}
+                      size={100}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const pdf = await generateCertificatePdf(certificate);
+                      pdf.save(`certificado-${certificate.verificationCode}.pdf`);
+                    }}
                     className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border text-sm font-medium hover:bg-secondary transition-colors w-full justify-center"
                   >
                     <Download className="w-4 h-4" />
                     Baixar PDF
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

@@ -126,6 +126,8 @@ src/
 | **Recharts**        | 2      | Gráficos e visualização de dados               |
 | **date-fns**        | 4      | Manipulação de datas                           |
 | **Lucide React**    | —      | Ícones                                         |
+| **qrcode**          | 1.5    | Geração de QR Codes no servidor (PDF)          |
+| **qrcode.react**    | 4      | Renderização de QR Codes no navegador          |
 | **Sonner**          | 2      | Notificações toast                             |
 | **Jest**            | 30     | Testes unitários                               |
 | **Testing Library** | 16     | Testes de componentes React                    |

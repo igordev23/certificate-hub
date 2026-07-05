@@ -9,6 +9,7 @@ import {
   BadgeCheck,
   AlertTriangle,
 } from "lucide-react";
+import { CertificateQRCode } from "@/components/CertificateQRCode";
 import { useVerifyViewModel } from "@/view-models/useVerifyViewModel";
 import { Link } from "@tanstack/react-router";
 
@@ -149,6 +150,13 @@ export function VerificarView() {
                   <Field
                     label="Válido até"
                     value={new Date(resultado.certificate.validityDate).toLocaleDateString("pt-BR")}
+                  />
+                </div>
+                <div className="px-5 py-4 border-t border-border flex items-center justify-center">
+                  <CertificateQRCode
+                    verificationCode={resultado.certificate.verificationCode}
+                    recipientCPF={cpf.replace(/\D/g, "")}
+                    size={130}
                   />
                 </div>
                 <div className="px-5 py-4 border-t border-border bg-secondary/20 flex items-center gap-2 text-sm text-muted-foreground">
