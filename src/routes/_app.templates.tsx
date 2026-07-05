@@ -301,11 +301,7 @@ function TemplatesPage() {
               </div>
 
               {/* Validity and Signature Line */}
-              <div className="z-10 px-8 flex justify-between items-end border-t border-[#c4a35a]/20 pt-4 mb-4">
-                <div className="text-[9px] text-muted-foreground space-y-0.5">
-                  <p>Data de emissão: {new Date().toLocaleDateString("pt-BR")}</p>
-                  <p>Válido até: {new Date(Date.now() + 3.1536e10).toLocaleDateString("pt-BR")}</p>
-                </div>
+              <div className="z-10 px-8 flex justify-end border-t border-[#c4a35a]/20 pt-3 mb-2">
                 <div className="text-center">
                   <div className="h-[1px] w-32 bg-muted-foreground/40 mx-auto" />
                   <p className="text-[8px] text-muted-foreground mt-1 font-semibold">
@@ -315,10 +311,10 @@ function TemplatesPage() {
                 </div>
               </div>
 
-              {/* Footer Verification Info */}
-              <div className="z-10 text-center pb-1 text-[8px] font-mono text-muted-foreground/60 space-y-0.5">
-                <p>Código de verificação: XYZ12345</p>
-                <p>Autenticidade garantida via CPF 123.456.789-00</p>
+              {/* Dates line */}
+              <div className="z-10 text-center text-[8px] text-muted-foreground/70 space-y-0.5">
+                <p>Data de emissão: {new Date().toLocaleDateString("pt-BR")}</p>
+                <p>Válido até: {new Date(Date.now() + 3.1536e10).toLocaleDateString("pt-BR")}</p>
               </div>
 
               {/* QR Code + Verification instructions */}
