@@ -289,14 +289,25 @@ function TemplatesPage() {
                   João da Silva Sauro
                 </h2>
                 <p
-                  className="text-muted-foreground leading-relaxed"
+                  className="text-muted-foreground"
                   style={{ fontSize: `${(layout.bodyFontSize * 0.85).toFixed(1)}px` }}
                 >
-                  concluiu com êxito o curso de{" "}
-                  <strong className="font-semibold" style={{ color: layout.primaryColor }}>
-                    Inteligência Artificial & Machine Learning
-                  </strong>{" "}
-                  com carga horária total de <strong className="font-semibold">40 horas</strong>.
+                  concluiu com êxito o curso de
+                </p>
+                <h3
+                  className="font-bold font-sans"
+                  style={{
+                    color: layout.primaryColor,
+                    fontSize: `${((layout.bodyFontSize + 4) * 0.85).toFixed(1)}px`,
+                  }}
+                >
+                  Inteligência Artificial & Machine Learning
+                </h3>
+                <p
+                  className="text-muted-foreground"
+                  style={{ fontSize: `${(layout.bodyFontSize * 0.85).toFixed(1)}px` }}
+                >
+                  com carga horária total de 40 horas.
                 </p>
               </div>
 
