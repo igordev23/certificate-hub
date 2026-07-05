@@ -332,16 +332,28 @@ function TemplatesPage() {
               <div className="z-10 px-8 flex items-start gap-3 pb-2">
                 <div className="w-[52px] h-[52px] shrink-0 bg-white border border-primary/20 rounded grid grid-cols-5 grid-rows-5 gap-px p-0.5 shadow-sm">
                   {Array.from({ length: 25 }).map((_, i) => {
-                    const patterns = [0,2,3,7,8,11,12,14,16,17,20,22,24];
-                    return <div key={i} className={`rounded-[0.5px] ${patterns.includes(i) ? "bg-primary/80" : "bg-white"}`} />;
+                    const patterns = [0, 2, 3, 7, 8, 11, 12, 14, 16, 17, 20, 22, 24];
+                    return (
+                      <div
+                        key={i}
+                        className={`rounded-[0.5px] ${patterns.includes(i) ? "bg-primary/80" : "bg-white"}`}
+                      />
+                    );
                   })}
                 </div>
                 <div className="text-[7px] leading-snug text-muted-foreground/70 min-w-0">
-                  <p className="font-semibold text-[7.5px] text-muted-foreground/80">INSTRUÇÕES PARA VERIFICAÇÃO DE AUTENTICIDADE:</p>
-                  <p className="mt-0.5">
-                    Este certificado foi emitido pelo CertificateHub. Verifique a sua autenticidade acessando o QR Code ao lado e informando o CPF 123.456.789-00, a data de conclusão ({new Date().toLocaleDateString("pt-BR")}) e o código de verificação (XYZ12345).
+                  <p className="font-semibold text-[7.5px] text-muted-foreground/80">
+                    INSTRUÇÕES PARA VERIFICAÇÃO DE AUTENTICIDADE:
                   </p>
-                  <p className="mt-0.5 text-[6.5px] text-muted-foreground/40 truncate">https://certificates.example.com/verify?cpf=12345678900&codigo=XYZ12345</p>
+                  <p className="mt-0.5">
+                    Este certificado foi emitido pelo CertificateHub. Verifique a sua autenticidade
+                    acessando o QR Code ao lado e informando o CPF 123.456.789-00, a data de
+                    conclusão ({new Date().toLocaleDateString("pt-BR")}) e o código de verificação
+                    (XYZ12345).
+                  </p>
+                  <p className="mt-0.5 text-[6.5px] text-muted-foreground/40 truncate">
+                    https://certificates.example.com/verify?cpf=12345678900&codigo=XYZ12345
+                  </p>
                 </div>
               </div>
 
