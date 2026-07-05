@@ -9,18 +9,13 @@ import {
   AlertTriangle,
   GraduationCap,
   Check,
-  QrCode,
-  X,
 } from "lucide-react";
-import { useState } from "react";
 import { useCertificatesViewModel } from "@/view-models/useCertificatesViewModel";
 import { PageHeader } from "@/components/PageHeader";
 import { Link } from "@tanstack/react-router";
 import { api } from "@/services/api";
 import type { Certificate } from "@/models/certificate";
 import { isExpired } from "@/models/certificate";
-import { CertificateQRCode } from "@/components/CertificateQRCode";
-import { generateCertificatePdf } from "@/services/pdf";
 
 function StatusBadge({ certificate }: { certificate: Certificate }) {
   const expired = isExpired(certificate.validityDate);
@@ -67,8 +62,6 @@ export function CertificadosListView() {
     salvarValidade,
     copied,
   } = useCertificatesViewModel();
-
-  const [qrCodeId, setQrCodeId] = useState<string | null>(null);
 
   return (
     <div>
@@ -171,22 +164,6 @@ export function CertificadosListView() {
                       )}
                     </button>
 
-                    <button
-                      title="QR Code"
-                      onClick={() => setQrCodeId(qrCodeId === c.id ? null : c.id)}
-                      className={`p-2 rounded-lg transition-colors ${
-                        qrCodeId === c.id
-                          ? "bg-primary/10 text-primary"
-                          : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-                      }`}
-                    >
-                      {qrCodeId === c.id ? (
-                        <X className="w-4 h-4" />
-                      ) : (
-                        <QrCode className="w-4 h-4" />
-                      )}
-                    </button>
-
                     {editId === c.id ? (
                       <div className="flex items-center gap-1.5">
                         <input
@@ -215,16 +192,15 @@ export function CertificadosListView() {
                       </button>
                     )}
 
-                    <button
-                      onClick={async () => {
-                        const pdf = await generateCertificatePdf(c);
-                        pdf.save(`certificado-${c.verificationCode}.pdf`);
-                      }}
+                    <a
+                      href={api.pdfUrl(c.id)}
+                      target="_blank"
+                      rel="noreferrer"
                       title="Baixar PDF"
                       className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                     >
                       <Download className="w-4 h-4" />
-                    </button>
+                    </a>
 
                     <Link
                       to={`/certificados/${c.id}/editar` as any}
@@ -235,16 +211,6 @@ export function CertificadosListView() {
                     </Link>
                   </div>
                 </div>
-
-                {qrCodeId === c.id && (
-                  <div className="mt-3 pt-3 border-t border-border/50 flex items-center justify-center">
-                    <CertificateQRCode
-                      verificationCode={c.verificationCode}
-                      recipientCPF={c.recipientCPF}
-                      size={130}
-                    />
-                  </div>
-                )}
               </div>
             ))}
           </div>
