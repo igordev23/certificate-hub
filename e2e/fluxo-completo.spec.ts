@@ -1,10 +1,10 @@
 import { test, expect } from "@playwright/test";
 
 const TEMPLATE_NAME = `E2E ${Date.now()}`;
-const CPF = "529.982.247-25";
+const CPF = "52998224725";
 
-test.describe("Fluxo completo: criar template → emitir → validar", () => {
-  test("cria um template, emite um certificado e valida pela página pública", async ({ page }) => {
+test.describe("Fluxo completo: criar template → emitir → validar → excluir", () => {
+  test("cria template, emite certificado, valida e exclui", async ({ page }) => {
     // 1. Criar template
     await page.goto("/templates");
     await page.waitForLoadState("networkidle");
@@ -54,5 +54,15 @@ test.describe("Fluxo completo: criar template → emitir → validar", () => {
 
     await page.getByRole("button", { name: /verificar/i }).click();
     await expect(page.getByText(/Certificado autêntico e válido/i)).toBeVisible({ timeout: 15000 });
+
+    // 5. Excluir o certificado
+    await page.goto("/certificados");
+    await page.waitForLoadState("networkidle");
+
+    page.on("dialog", (dialog) => dialog.accept());
+    await page.locator('button[title="Excluir certificado"]').first().click();
+    await page.waitForTimeout(1000);
+
+    await expect(page.getByText("João E2E")).not.toBeVisible({ timeout: 10000 });
   });
 });
