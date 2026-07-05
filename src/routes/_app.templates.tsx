@@ -301,7 +301,7 @@ function TemplatesPage() {
               </div>
 
               {/* Validity and Signature Line */}
-              <div className="z-10 px-8 flex justify-end border-t border-[#c4a35a]/20 pt-3 mb-2">
+              <div className="z-10 px-8 flex justify-end border-t border-[#c4a35a]/20 pt-6 mb-2">
                 <div className="text-center">
                   <div className="h-[1px] w-32 bg-muted-foreground/40 mx-auto" />
                   <p className="text-[8px] text-muted-foreground mt-1 font-semibold">
