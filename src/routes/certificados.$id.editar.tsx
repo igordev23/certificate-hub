@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { api } from "@/services/api";
+import { friendlyError } from "@/lib/error-friendly";
 import { PageHeader } from "@/components/PageHeader";
 import {
   Loader2,
@@ -54,7 +55,13 @@ function CertificadoEdit() {
         setCourseName(c.courseName ?? "");
         setCourseHours(c.courseHours ?? "");
       })
-      .catch((e) => setError((e as Error).message))
+      .catch((e) => {
+        const msg = (e as Error).message;
+        setError(msg);
+        toast.error(friendlyError(e, "Não foi possível carregar o certificado"), {
+          duration: Infinity,
+        });
+      })
       .finally(() => active && setLoading(false));
     return () => {
       active = false;
@@ -77,10 +84,10 @@ function CertificadoEdit() {
       const err = e as any;
       if (err?.details) {
         setError(err.details.map((d: any) => d.message).join(". "));
-        toast.error("Erro de validação ao salvar certificado", { duration: Infinity });
+        toast.error("Verifique os campos do formulário e tente novamente.", { duration: Infinity });
       } else {
         setError(err?.message || "Erro desconhecido");
-        toast.error(err?.message || "Erro desconhecido", { duration: Infinity });
+        toast.error(friendlyError(err), { duration: Infinity });
       }
     } finally {
       setSaving(false);

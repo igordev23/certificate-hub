@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { api } from "@/services/api";
 import { envios } from "@/services/envios";
+import { friendlyError } from "@/lib/error-friendly";
 import type { Template } from "@/models/template";
 import type { ValidationError } from "@/components/ErrorAlert";
 
@@ -69,7 +70,7 @@ export function useEmitCertificateViewModel() {
         }
       })
       .catch((err) => {
-        toast.error("Erro ao carregar templates: " + (err as Error).message, {
+        toast.error(friendlyError(err, "Não foi possível carregar os modelos de certificado"), {
           duration: Infinity,
         });
       })
@@ -135,13 +136,15 @@ export function useEmitCertificateViewModel() {
 
       if (error?.details && Array.isArray(error.details)) {
         setErrors(error.details);
-        toast.error("Erro de validação ao emitir certificado", { duration: Infinity });
+        toast.error("Verifique os campos do formulário e tente novamente.", { duration: Infinity });
       } else if (error?.message) {
         setErrors([{ field: "geral", message: error.message }]);
-        toast.error(error.message, { duration: Infinity });
+        toast.error(friendlyError(error), { duration: Infinity });
       } else {
         setErrors([{ field: "geral", message: "Erro desconhecido ao emitir certificado" }]);
-        toast.error("Erro desconhecido ao emitir certificado", { duration: Infinity });
+        toast.error("Não foi possível emitir o certificado. Tente novamente.", {
+          duration: Infinity,
+        });
       }
     } finally {
       setSubmitting(false);

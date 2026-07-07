@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router"
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { api } from "@/services/api";
+import { friendlyError } from "@/lib/error-friendly";
 import { ColorPicker } from "@/components/ColorPicker";
 import { Loader2, Save, ChevronLeft } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
@@ -59,7 +60,13 @@ function TemplateEdit() {
           ...((t.layoutConfig as Partial<TemplateLayoutConfig>) || {}),
         });
       })
-      .catch((e) => setError((e as Error).message))
+      .catch((e) => {
+        const msg = (e as Error).message;
+        setError(msg);
+        toast.error(friendlyError(e, "Não foi possível carregar o modelo"), {
+          duration: Infinity,
+        });
+      })
       .finally(() => active && setLoading(false));
     return () => {
       active = false;
@@ -75,7 +82,9 @@ function TemplateEdit() {
     } catch (e) {
       const msg = (e as Error).message;
       setError(msg);
-      toast.error(msg, { duration: Infinity });
+      toast.error(friendlyError(e, "Não foi possível salvar as alterações"), {
+        duration: Infinity,
+      });
     } finally {
       setSaving(false);
     }

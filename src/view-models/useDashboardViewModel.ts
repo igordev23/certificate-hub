@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { api, isExpired } from "@/services/api";
 import { envios } from "@/services/envios";
+import { friendlyError } from "@/lib/error-friendly";
 
 export function useDashboardViewModel() {
   const [stats, setStats] = useState({ certs: 0, ativos: 0, templates: 0, envios: 0 });
@@ -22,7 +23,9 @@ export function useDashboardViewModel() {
       });
     } catch (e) {
       setError((e as Error).message);
-      toast.error("Erro ao carregar dashboard: " + (e as Error).message, { duration: Infinity });
+      toast.error(friendlyError(e, "Não foi possível carregar o painel de controle"), {
+        duration: Infinity,
+      });
     } finally {
       setLoading(false);
     }

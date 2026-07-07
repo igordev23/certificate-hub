@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { api } from "@/services/api";
+import { friendlyError } from "@/lib/error-friendly";
 import type { Template } from "@/models/template";
 
 type TemplateLayoutConfig = {
@@ -44,7 +45,9 @@ export function useTemplatesViewModel() {
       setItems(await api.listTemplates());
     } catch (e) {
       setError((e as Error).message);
-      toast.error("Erro ao carregar templates: " + (e as Error).message, { duration: Infinity });
+      toast.error(friendlyError(e, "Não foi possível carregar os modelos de certificado"), {
+        duration: Infinity,
+      });
     } finally {
       setLoading(false);
     }
@@ -69,7 +72,9 @@ export function useTemplatesViewModel() {
       setOpen(false);
       setLoadKey((k) => k + 1);
     } catch (err) {
-      toast.error((err as Error).message, { duration: Infinity });
+      toast.error(friendlyError(err, "Não foi possível criar o modelo"), {
+        duration: Infinity,
+      });
     } finally {
       setSaving(false);
     }
@@ -82,7 +87,9 @@ export function useTemplatesViewModel() {
       toast.success("Template removido com sucesso!");
       setLoadKey((k) => k + 1);
     } catch (err) {
-      toast.error((err as Error).message, { duration: Infinity });
+      toast.error(friendlyError(err, "Não foi possível remover o modelo"), {
+        duration: Infinity,
+      });
     }
   }
 
@@ -109,7 +116,9 @@ export function useTemplatesViewModel() {
       setEditingTemplate(null);
       setLoadKey((k) => k + 1);
     } catch (err) {
-      toast.error((err as Error).message, { duration: Infinity });
+      toast.error(friendlyError(err, "Não foi possível salvar as alterações"), {
+        duration: Infinity,
+      });
     } finally {
       setSaving(false);
     }

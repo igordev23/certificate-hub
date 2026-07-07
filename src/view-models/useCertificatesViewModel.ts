@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { api } from "@/services/api";
+import { friendlyError } from "@/lib/error-friendly";
 import type { Certificate } from "@/models/certificate";
 
 export function useCertificatesViewModel() {
@@ -19,7 +20,9 @@ export function useCertificatesViewModel() {
       setItems(await api.listCertificates());
     } catch (e) {
       setError((e as Error).message);
-      toast.error("Erro ao carregar certificados: " + (e as Error).message, { duration: Infinity });
+      toast.error(friendlyError(e, "Não foi possível carregar a lista de certificados"), {
+        duration: Infinity,
+      });
     } finally {
       setLoading(false);
     }
@@ -47,7 +50,9 @@ export function useCertificatesViewModel() {
       toast.success("Validade atualizada com sucesso!");
       await load();
     } catch (err) {
-      toast.error((err as Error).message, { duration: Infinity });
+      toast.error(friendlyError(err, "Não foi possível atualizar a validade"), {
+        duration: Infinity,
+      });
     }
   }
 
@@ -58,7 +63,9 @@ export function useCertificatesViewModel() {
       toast.success("Certificado excluído com sucesso!");
       await load();
     } catch (err) {
-      toast.error((err as Error).message, { duration: Infinity });
+      toast.error(friendlyError(err, "Não foi possível excluir o certificado"), {
+        duration: Infinity,
+      });
     }
   }
 
