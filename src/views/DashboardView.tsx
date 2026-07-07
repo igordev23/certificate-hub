@@ -94,6 +94,7 @@ export function DashboardView() {
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 11 }} />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="total" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} />
+                <ChartLegend content={<ChartLegendContent />} />
               </BarChart>
             </ChartContainer>
           ) : (
@@ -128,8 +129,8 @@ export function DashboardView() {
                   nameKey="course"
                   cx="50%"
                   cy="50%"
-                  outerRadius={90}
-                  innerRadius={50}
+                  outerRadius={80}
+                  innerRadius={45}
                   paddingAngle={3}
                 >
                   {courseData.map((entry, index) => (
@@ -137,7 +138,11 @@ export function DashboardView() {
                   ))}
                 </Pie>
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <ChartLegend content={<ChartLegendContent />} />
+                <ChartLegend
+                  content={
+                    <ChartLegendContent className="flex-wrap gap-x-4 gap-y-1 max-h-24 overflow-y-auto" />
+                  }
+                />
               </PieChart>
             </ChartContainer>
           ) : (
