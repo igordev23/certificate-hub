@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { api, isExpired } from "@/services/api";
 import { envios } from "@/services/envios";
 
@@ -21,6 +22,7 @@ export function useDashboardViewModel() {
       });
     } catch (e) {
       setError((e as Error).message);
+      toast.error("Erro ao carregar dashboard: " + (e as Error).message, { duration: Infinity });
     } finally {
       setLoading(false);
     }

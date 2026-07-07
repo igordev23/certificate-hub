@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import { api } from "@/services/api";
 import type { VerifyResult } from "@/models/verify";
 
@@ -23,8 +24,11 @@ export function useVerifyViewModel() {
       const e = err as any;
       if (e?.details) {
         setError(e.details.map((d: any) => d.message).join(". "));
+        toast.error("Erro de validação na verificação", { duration: Infinity });
       } else {
-        setError(e?.message || "Erro desconhecido");
+        const msg = e?.message || "Erro desconhecido";
+        setError(msg);
+        toast.error(msg, { duration: Infinity });
       }
     } finally {
       setLoading(false);

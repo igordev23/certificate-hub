@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { api } from "@/services/api";
 import { ColorPicker } from "@/components/ColorPicker";
 import { Loader2, Save, ChevronLeft } from "lucide-react";
@@ -69,9 +70,12 @@ function TemplateEdit() {
     setSaving(true);
     try {
       await api.updateTemplate(id, { name, description, layoutConfig: layout as any });
+      toast.success("Template atualizado com sucesso!");
       navigate({ to: "/templates" });
     } catch (e) {
-      setError((e as Error).message);
+      const msg = (e as Error).message;
+      setError(msg);
+      toast.error(msg, { duration: Infinity });
     } finally {
       setSaving(false);
     }

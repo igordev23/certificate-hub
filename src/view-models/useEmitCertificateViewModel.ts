@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { api } from "@/services/api";
 import { envios } from "@/services/envios";
 import type { Template } from "@/models/template";
@@ -68,7 +69,9 @@ export function useEmitCertificateViewModel() {
         }
       })
       .catch((err) => {
-        alert("Erro ao carregar templates: " + (err as Error).message);
+        toast.error("Erro ao carregar templates: " + (err as Error).message, {
+          duration: Infinity,
+        });
       })
       .finally(() => setLoadingTemplates(false));
   }, []);
@@ -125,16 +128,20 @@ export function useEmitCertificateViewModel() {
         });
       }
 
+      toast.success("Certificado emitido com sucesso!");
       navigate({ to: "/certificados" });
     } catch (err) {
       const error = err as any;
 
       if (error?.details && Array.isArray(error.details)) {
         setErrors(error.details);
+        toast.error("Erro de validação ao emitir certificado", { duration: Infinity });
       } else if (error?.message) {
         setErrors([{ field: "geral", message: error.message }]);
+        toast.error(error.message, { duration: Infinity });
       } else {
         setErrors([{ field: "geral", message: "Erro desconhecido ao emitir certificado" }]);
+        toast.error("Erro desconhecido ao emitir certificado", { duration: Infinity });
       }
     } finally {
       setSubmitting(false);

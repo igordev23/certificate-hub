@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { api } from "@/services/api";
 import type { Template } from "@/models/template";
 
@@ -43,6 +44,7 @@ export function useTemplatesViewModel() {
       setItems(await api.listTemplates());
     } catch (e) {
       setError((e as Error).message);
+      toast.error("Erro ao carregar templates: " + (e as Error).message, { duration: Infinity });
     } finally {
       setLoading(false);
     }
@@ -61,12 +63,13 @@ export function useTemplatesViewModel() {
         description,
         layoutConfig: DEFAULT_LAYOUT,
       });
+      toast.success("Template criado com sucesso!");
       setName("");
       setDescription("");
       setOpen(false);
       setLoadKey((k) => k + 1);
     } catch (err) {
-      alert((err as Error).message);
+      toast.error((err as Error).message, { duration: Infinity });
     } finally {
       setSaving(false);
     }
@@ -76,9 +79,10 @@ export function useTemplatesViewModel() {
     if (!confirm("Remover este template?")) return;
     try {
       await api.deleteTemplate(id);
+      toast.success("Template removido com sucesso!");
       setLoadKey((k) => k + 1);
     } catch (err) {
-      alert((err as Error).message);
+      toast.error((err as Error).message, { duration: Infinity });
     }
   }
 
@@ -101,10 +105,11 @@ export function useTemplatesViewModel() {
         description: editDescription,
         layoutConfig: layout,
       });
+      toast.success("Template atualizado com sucesso!");
       setEditingTemplate(null);
       setLoadKey((k) => k + 1);
     } catch (err) {
-      alert((err as Error).message);
+      toast.error((err as Error).message, { duration: Infinity });
     } finally {
       setSaving(false);
     }

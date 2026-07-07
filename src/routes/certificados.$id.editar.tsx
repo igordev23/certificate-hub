@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { api } from "@/services/api";
 import { PageHeader } from "@/components/PageHeader";
 import {
@@ -70,13 +71,16 @@ function CertificadoEdit() {
         courseHours: Number(courseHours) || 0,
         validityDate: new Date(validityDate).toISOString(),
       });
+      toast.success("Certificado atualizado com sucesso!");
       navigate({ to: "/certificados" });
     } catch (e) {
       const err = e as any;
       if (err?.details) {
         setError(err.details.map((d: any) => d.message).join(". "));
+        toast.error("Erro de validação ao salvar certificado", { duration: Infinity });
       } else {
         setError(err?.message || "Erro desconhecido");
+        toast.error(err?.message || "Erro desconhecido", { duration: Infinity });
       }
     } finally {
       setSaving(false);

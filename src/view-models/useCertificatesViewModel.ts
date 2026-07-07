@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { api } from "@/services/api";
 import type { Certificate } from "@/models/certificate";
 
@@ -18,6 +19,7 @@ export function useCertificatesViewModel() {
       setItems(await api.listCertificates());
     } catch (e) {
       setError((e as Error).message);
+      toast.error("Erro ao carregar certificados: " + (e as Error).message, { duration: Infinity });
     } finally {
       setLoading(false);
     }
@@ -42,9 +44,10 @@ export function useCertificatesViewModel() {
     try {
       await api.updateValidity(id, new Date(novaValidade).toISOString());
       setEditId(null);
+      toast.success("Validade atualizada com sucesso!");
       await load();
     } catch (err) {
-      alert((err as Error).message);
+      toast.error((err as Error).message, { duration: Infinity });
     }
   }
 
@@ -52,15 +55,17 @@ export function useCertificatesViewModel() {
     if (!confirm("Tem certeza que deseja excluir este certificado?")) return;
     try {
       await api.deleteCertificate(id);
+      toast.success("Certificado excluído com sucesso!");
       await load();
     } catch (err) {
-      alert((err as Error).message);
+      toast.error((err as Error).message, { duration: Infinity });
     }
   }
 
   function copiar(c: Certificate) {
     navigator.clipboard.writeText(c.verificationCode);
     setCopied(c.id);
+    toast.success("Código de verificação copiado!");
     setTimeout(() => setCopied(null), 1500);
   }
 
