@@ -23,7 +23,7 @@ export function useDashboardViewModel() {
       });
     } catch (e) {
       setError((e as Error).message);
-      toast.error(friendlyError(e, "Não foi possível carregar o painel de controle"), {
+      toast.error(friendlyError(e), {
         duration: Infinity,
       });
     } finally {

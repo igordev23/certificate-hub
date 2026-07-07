@@ -4,27 +4,20 @@ const ERROR_MAP: Record<string, string> = {
   "Network request failed":
     "Não foi possível conectar ao servidor. Verifique sua conexão com a internet.",
   "Load failed": "Não foi possível conectar ao servidor. Verifique sua conexão com a internet.",
+  "HTTP 500": "O servidor está temporariamente indisponível. Tente novamente mais tarde.",
 };
 
-export function friendlyError(error: unknown, context?: string): string {
+export function friendlyError(error: unknown): string {
   const message = error instanceof Error ? error.message : String(error ?? "Erro desconhecido");
 
   const matchedKey = Object.keys(ERROR_MAP).find((key) =>
     message.toLowerCase().includes(key.toLowerCase()),
   );
-  const friendly = matchedKey ? ERROR_MAP[matchedKey] : message;
+  if (matchedKey) return ERROR_MAP[matchedKey];
 
-  if (/(5\d{2})/.test(message)) {
+  if (/\b5\d{2}\b/.test(message)) {
     return "O servidor está temporariamente indisponível. Tente novamente mais tarde.";
   }
 
-  if (/(4\d{2})/.test(message)) {
-    return "Ocorreu um erro inesperado. Tente novamente mais tarde.";
-  }
-
-  if (context) {
-    return `${context}: ${friendly}`;
-  }
-
-  return friendly;
+  return message;
 }

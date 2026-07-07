@@ -20,7 +20,7 @@ export function useCertificatesViewModel() {
       setItems(await api.listCertificates());
     } catch (e) {
       setError((e as Error).message);
-      toast.error(friendlyError(e, "Não foi possível carregar a lista de certificados"), {
+      toast.error(friendlyError(e), {
         duration: Infinity,
       });
     } finally {
@@ -50,7 +50,7 @@ export function useCertificatesViewModel() {
       toast.success("Validade atualizada com sucesso!");
       await load();
     } catch (err) {
-      toast.error(friendlyError(err, "Não foi possível atualizar a validade"), {
+      toast.error(friendlyError(err), {
         duration: Infinity,
       });
     }
@@ -63,7 +63,7 @@ export function useCertificatesViewModel() {
       toast.success("Certificado excluído com sucesso!");
       await load();
     } catch (err) {
-      toast.error(friendlyError(err, "Não foi possível excluir o certificado"), {
+      toast.error(friendlyError(err), {
         duration: Infinity,
       });
     }

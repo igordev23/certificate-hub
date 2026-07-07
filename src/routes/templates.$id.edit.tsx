@@ -63,7 +63,7 @@ function TemplateEdit() {
       .catch((e) => {
         const msg = (e as Error).message;
         setError(msg);
-        toast.error(friendlyError(e, "Não foi possível carregar o modelo"), {
+        toast.error(friendlyError(e), {
           duration: Infinity,
         });
       })
@@ -82,9 +82,7 @@ function TemplateEdit() {
     } catch (e) {
       const msg = (e as Error).message;
       setError(msg);
-      toast.error(friendlyError(e, "Não foi possível salvar as alterações"), {
-        duration: Infinity,
-      });
+      toast.error(friendlyError(e), { duration: Infinity });
     } finally {
       setSaving(false);
     }

@@ -45,7 +45,7 @@ export function useTemplatesViewModel() {
       setItems(await api.listTemplates());
     } catch (e) {
       setError((e as Error).message);
-      toast.error(friendlyError(e, "Não foi possível carregar os modelos de certificado"), {
+      toast.error(friendlyError(e), {
         duration: Infinity,
       });
     } finally {
@@ -72,7 +72,7 @@ export function useTemplatesViewModel() {
       setOpen(false);
       setLoadKey((k) => k + 1);
     } catch (err) {
-      toast.error(friendlyError(err, "Não foi possível criar o modelo"), {
+      toast.error(friendlyError(err), {
         duration: Infinity,
       });
     } finally {
@@ -87,7 +87,7 @@ export function useTemplatesViewModel() {
       toast.success("Template removido com sucesso!");
       setLoadKey((k) => k + 1);
     } catch (err) {
-      toast.error(friendlyError(err, "Não foi possível remover o modelo"), {
+      toast.error(friendlyError(err), {
         duration: Infinity,
       });
     }
@@ -116,7 +116,7 @@ export function useTemplatesViewModel() {
       setEditingTemplate(null);
       setLoadKey((k) => k + 1);
     } catch (err) {
-      toast.error(friendlyError(err, "Não foi possível salvar as alterações"), {
+      toast.error(friendlyError(err), {
         duration: Infinity,
       });
     } finally {

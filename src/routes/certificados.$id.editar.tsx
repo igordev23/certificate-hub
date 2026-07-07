@@ -58,7 +58,7 @@ function CertificadoEdit() {
       .catch((e) => {
         const msg = (e as Error).message;
         setError(msg);
-        toast.error(friendlyError(e, "Não foi possível carregar o certificado"), {
+        toast.error(friendlyError(e), {
           duration: Infinity,
         });
       })

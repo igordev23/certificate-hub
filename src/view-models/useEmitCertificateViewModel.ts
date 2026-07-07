@@ -70,7 +70,7 @@ export function useEmitCertificateViewModel() {
         }
       })
       .catch((err) => {
-        toast.error(friendlyError(err, "Não foi possível carregar os modelos de certificado"), {
+        toast.error(friendlyError(err), {
           duration: Infinity,
         });
       })
