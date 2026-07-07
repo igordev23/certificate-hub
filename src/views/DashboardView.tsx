@@ -1,10 +1,36 @@
 import { useDashboardViewModel } from "@/view-models/useDashboardViewModel";
 import { PageHeader } from "@/components/PageHeader";
-import { Award, FileText, Send, ShieldCheck, ArrowRight } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import {
+  Award,
+  FileText,
+  Send,
+  ShieldCheck,
+  BarChart3,
+  PieChart as PieChartIcon,
+} from "lucide-react";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from "@/components/ui/chart";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell } from "recharts";
+
+const CHART_COLORS = [
+  "var(--color-chart-1)",
+  "var(--color-chart-2)",
+  "var(--color-chart-3)",
+  "var(--color-chart-4)",
+  "var(--color-chart-5)",
+];
+
+const barConfig = {
+  total: { label: "Certificados", color: "var(--color-chart-1)" },
+};
 
 export function DashboardView() {
-  const { stats, loading } = useDashboardViewModel();
+  const { stats, monthlyData, courseData, loading } = useDashboardViewModel();
 
   return (
     <div>
@@ -45,37 +71,81 @@ export function DashboardView() {
         />
       </div>
 
-      <div className="mt-8 grid md:grid-cols-2 gap-4">
-        <Link
-          to="/templates"
-          className="group bg-card border border-border rounded-xl p-6 transition-all duration-200 hover:shadow-elevated hover:border-primary/30"
+      <div className="mt-8 grid lg:grid-cols-2 gap-6">
+        <div
+          className="bg-card border border-border rounded-xl p-5"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-3">
-            <FileText className="w-5 h-5 text-primary" />
+          <div className="flex items-center gap-2 mb-4">
+            <BarChart3 className="w-5 h-5 text-muted-foreground" />
+            <h3 className="font-semibold text-sm">Certificados emitidos por mês</h3>
           </div>
-          <h3 className="font-semibold">Gerenciar templates</h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            Cadastre modelos de certificado reutilizáveis.
-          </p>
-          <span className="inline-flex items-center gap-1 text-sm text-primary font-medium mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            Acessar <ArrowRight className="w-3.5 h-3.5" />
-          </span>
-        </Link>
-        <Link
-          to="/certificados"
-          className="group bg-card border border-border rounded-xl p-6 transition-all duration-200 hover:shadow-elevated hover:border-primary/30"
+          {monthlyData.length > 0 ? (
+            <ChartContainer config={barConfig} className="aspect-auto h-72">
+              <BarChart data={monthlyData} margin={{ top: 8, right: 8, left: -16, bottom: 4 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  tick={{ fontSize: 11 }}
+                />
+                <YAxis tickLine={false} axisLine={false} tickMargin={8} tick={{ fontSize: 11 }} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Bar dataKey="total" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ChartContainer>
+          ) : (
+            <div className="flex items-center justify-center h-72 text-sm text-muted-foreground">
+              {loading ? "Carregando..." : "Nenhum certificado emitido ainda."}
+            </div>
+          )}
+        </div>
+
+        <div
+          className="bg-card border border-border rounded-xl p-5"
           style={{ boxShadow: "var(--shadow-card)" }}
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-3">
-            <Award className="w-5 h-5 text-primary" />
+          <div className="flex items-center gap-2 mb-4">
+            <PieChartIcon className="w-5 h-5 text-muted-foreground" />
+            <h3 className="font-semibold text-sm">Certificados por curso</h3>
           </div>
-          <h3 className="font-semibold">Ver certificados</h3>
-          <p className="text-sm text-muted-foreground mt-1">Liste, edite validade e baixe PDFs.</p>
-          <span className="inline-flex items-center gap-1 text-sm text-primary font-medium mt-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            Acessar <ArrowRight className="w-3.5 h-3.5" />
-          </span>
-        </Link>
+          {courseData.length > 0 ? (
+            <ChartContainer
+              config={Object.fromEntries(
+                courseData.map((c, i) => [
+                  c.course,
+                  { label: c.course, color: CHART_COLORS[i % CHART_COLORS.length] },
+                ]),
+              )}
+              className="aspect-auto h-72"
+            >
+              <PieChart margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
+                <Pie
+                  data={courseData}
+                  dataKey="total"
+                  nameKey="course"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={90}
+                  innerRadius={50}
+                  paddingAngle={3}
+                >
+                  {courseData.map((entry, index) => (
+                    <Cell key={entry.course} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                  ))}
+                </Pie>
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <ChartLegend content={<ChartLegendContent />} />
+              </PieChart>
+            </ChartContainer>
+          ) : (
+            <div className="flex items-center justify-center h-72 text-sm text-muted-foreground">
+              {loading ? "Carregando..." : "Nenhum certificado emitido ainda."}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
