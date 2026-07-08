@@ -103,10 +103,7 @@ export function EditarCertificadoView({ id }: { id: string }) {
         </div>
 
         <Form {...form}>
-          <form
-            onSubmit={submit}
-            className="p-6 space-y-5"
-          >
+          <form onSubmit={submit} className="p-6 space-y-5">
             <div className="grid md:grid-cols-2 gap-5">
               <FormField
                 control={form.control}
