@@ -16,7 +16,7 @@ export function NovoCertificadoView() {
     useEmitCertificateViewModel();
 
   return (
-    <div className="max-w-2xl">
+    <div className="p-4 md:p-6 space-y-6">
       <PageHeader title="Emitir certificado" description="Preencha os dados do participante." />
       <Form {...form}>
         <form

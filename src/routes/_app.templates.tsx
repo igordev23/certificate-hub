@@ -81,7 +81,7 @@ function TemplatesPage() {
 
   if (editingTemplate) {
     return (
-      <div className="space-y-6">
+      <div className="p-4 md:p-6 space-y-6">
         <div className="flex items-center justify-between pb-4 border-b border-border">
           <div className="flex items-center gap-3">
             <button
@@ -383,7 +383,7 @@ function TemplatesPage() {
   }
 
   return (
-    <div>
+    <div className="p-4 md:p-6 space-y-6">
       <PageHeader
         title="Templates"
         description="Modelos de certificado da sua organização."

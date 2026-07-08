@@ -34,6 +34,21 @@ export const emitCertificateSchema = z.object({
 
 export type EmitCertificateData = z.infer<typeof emitCertificateSchema>;
 
+export const updateCertificateSchema = z.object({
+  recipientName: z.string().min(1, "Informe o nome do participante"),
+  recipientCPF: z
+    .string()
+    .min(1, "Informe o CPF")
+    .transform((v) => v.replace(/\D/g, ""))
+    .refine((v) => v.length === 11, "CPF deve ter 11 dígitos")
+    .refine(isValidCPF, "CPF inválido"),
+  courseName: z.string().min(1, "Informe o nome do curso"),
+  courseHours: z.coerce.number().min(1, "Carga horária deve ser no mínimo 1"),
+  validityDate: z.string().min(1, "Selecione a data de validade"),
+});
+
+export type UpdateCertificateData = z.infer<typeof updateCertificateSchema>;
+
 export const createTemplateSchema = z.object({
   name: z.string().min(1, "Informe o nome do template"),
   description: z.string().optional(),
