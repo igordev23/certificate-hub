@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { api, isExpired } from "@/services/api";
+import { api } from "@/services/api";
+import { isExpired } from "@/models/certificate";
 import { envios } from "@/services/envios";
 import { friendlyError } from "@/lib/error-friendly";
 import type { Certificate } from "@/models/certificate";

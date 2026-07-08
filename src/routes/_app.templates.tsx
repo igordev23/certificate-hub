@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   FileText,
@@ -14,6 +16,15 @@ import { useTemplatesViewModel } from "@/view-models/useTemplatesViewModel";
 import { ColorPicker } from "@/components/ColorPicker";
 import { PageHeader } from "@/components/PageHeader";
 import { TemplatesView } from "@/views/TemplatesView";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/_app/templates")({
   component: TemplatesPage,
@@ -51,21 +62,18 @@ function TemplatesPage() {
     error,
     open,
     setOpen,
-    name,
-    description,
     saving,
     editingTemplate,
     editName,
     editDescription,
     layout,
     load,
+    addForm,
     add,
     remove,
     startEditing,
     saveChanges,
     cancelEditing,
-    setName,
-    setDescription,
     setEditName,
     setEditDescription,
     setLayout,
@@ -313,8 +321,11 @@ function TemplatesPage() {
 
               {/* Dates line */}
               <div className="z-10 text-center text-[8px] text-muted-foreground/70 space-y-0.5">
-                <p>Data de emissão: {new Date().toLocaleDateString("pt-BR")}</p>
-                <p>Válido até: {new Date(Date.now() + 3.1536e10).toLocaleDateString("pt-BR")}</p>
+                <p>Data de emissão: {format(new Date(), "dd/MM/yyyy", { locale: ptBR })}</p>
+                <p>
+                  Válido até:{" "}
+                  {format(new Date(Date.now() + 3.1536e10), "dd/MM/yyyy", { locale: ptBR })}
+                </p>
               </div>
 
               {/* Signature */}
@@ -348,8 +359,8 @@ function TemplatesPage() {
                   <p className="mt-0.5">
                     Este certificado foi emitido pelo CertificateHub. Verifique a sua autenticidade
                     acessando o QR Code ao lado e informando o CPF 123.456.789-00, a data de
-                    conclusão ({new Date().toLocaleDateString("pt-BR")}) e o código de verificação
-                    (XYZ12345).
+                    conclusão ({format(new Date(), "dd/MM/yyyy", { locale: ptBR })}) e o código de
+                    verificação (XYZ12345).
                   </p>
                   <p className="mt-0.5 text-[6.5px] text-muted-foreground/40 truncate">
                     https://certificates.example.com/verify?cpf=12345678900&codigo=XYZ12345
@@ -388,46 +399,61 @@ function TemplatesPage() {
       />
 
       {open && (
-        <form onSubmit={add} className="bg-card border border-border rounded-xl p-5 mb-6 space-y-4">
-          <h3 className="font-semibold">Cadastrar novo template</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium">Nome</label>
-              <input
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1.5 w-full px-3 py-2 rounded-md border border-input bg-background"
-                placeholder="Ex.: Workshop de IA"
+        <Form {...addForm}>
+          <form
+            onSubmit={add}
+            className="bg-card border border-border rounded-xl p-5 mb-6 space-y-4"
+          >
+            <h3 className="font-semibold">Cadastrar novo template</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <FormField
+                control={addForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nome</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Ex.: Workshop de IA" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={addForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descrição</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Opcional" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
-            <div>
-              <label className="text-sm font-medium">Descrição</label>
-              <input
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="mt-1.5 w-full px-3 py-2 rounded-md border border-input bg-background"
-                placeholder="Opcional"
-              />
+            <div className="flex gap-2 justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  addForm.reset();
+                }}
+                className="px-4 py-2 rounded-md border border-border cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                disabled={saving}
+                className="px-4 py-2 rounded-md bg-primary text-primary-foreground font-medium inline-flex items-center gap-2 cursor-pointer"
+              >
+                {saving && <Loader2 className="w-4 h-4 animate-spin" />} Salvar
+              </button>
             </div>
-          </div>
-          <div className="flex gap-2 justify-end">
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="px-4 py-2 rounded-md border border-border cursor-pointer"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="px-4 py-2 rounded-md bg-primary text-primary-foreground font-medium inline-flex items-center gap-2 cursor-pointer"
-            >
-              {saving && <Loader2 className="w-4 h-4 animate-spin" />} Salvar
-            </button>
-          </div>
-        </form>
+          </form>
+        </Form>
       )}
 
       {loading ? (
@@ -472,7 +498,9 @@ function TemplatesPage() {
                 </p>
               </div>
               <div className="mt-4 pt-4 border-t border-border/50 flex justify-between items-center text-xs text-muted-foreground">
-                <span>Criado em {new Date(t.createdAt).toLocaleDateString("pt-BR")}</span>
+                <span>
+                  Criado em {format(new Date(t.createdAt), "dd/MM/yyyy", { locale: ptBR })}
+                </span>
                 {t.layoutConfig && Object.keys(t.layoutConfig).length > 0 && (
                   <span className="inline-flex items-center gap-1 text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">
                     Personalizado

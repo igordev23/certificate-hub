@@ -1,3 +1,5 @@
+import { isAfter } from "date-fns";
+
 export interface Certificate {
   id: string;
   recipientName: string;
@@ -13,5 +15,5 @@ export interface Certificate {
 }
 
 export function isExpired(validityDate: string): boolean {
-  return new Date(validityDate) < new Date();
+  return isAfter(new Date(), new Date(validityDate));
 }

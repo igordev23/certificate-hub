@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import {
   ShieldCheck,
   Search,
@@ -144,11 +146,15 @@ export function VerificarView() {
                   <Field label="Código" value={resultado.certificate.verificationCode} mono />
                   <Field
                     label="Emitido em"
-                    value={new Date(resultado.certificate.issuedAt).toLocaleDateString("pt-BR")}
+                    value={format(new Date(resultado.certificate.issuedAt), "dd/MM/yyyy", {
+                      locale: ptBR,
+                    })}
                   />
                   <Field
                     label="Válido até"
-                    value={new Date(resultado.certificate.validityDate).toLocaleDateString("pt-BR")}
+                    value={format(new Date(resultado.certificate.validityDate), "dd/MM/yyyy", {
+                      locale: ptBR,
+                    })}
                   />
                 </div>
                 <div className="px-5 py-4 border-t border-border bg-secondary/20 flex items-center gap-2 text-sm text-muted-foreground">

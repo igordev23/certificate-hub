@@ -30,6 +30,13 @@ const mockCertificates = [
   },
 ];
 
+jest.mock("sonner", () => ({
+  toast: {
+    error: jest.fn(),
+    success: jest.fn(),
+  },
+}));
+
 jest.mock("../../src/services/api", () => ({
   api: {
     listCertificates: jest.fn(),
@@ -37,6 +44,7 @@ jest.mock("../../src/services/api", () => ({
   },
 }));
 
+import { toast } from "sonner";
 import { api } from "../../src/services/api";
 
 beforeEach(() => {
@@ -117,18 +125,16 @@ describe("useCertificatesViewModel", () => {
     expect(result.current.editId).toBeNull();
   });
 
-  it("salvarValidade shows alert on error", async () => {
+  it("salvarValidade shows toast on error", async () => {
     (api.listCertificates as jest.Mock).mockResolvedValue(mockCertificates);
     (api.updateValidity as jest.Mock).mockRejectedValue(new Error("Falha na atualização"));
-    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
     const { result } = renderHook(() => useCertificatesViewModel());
     await waitFor(() => expect(result.current.loading).toBe(false));
     act(() => result.current.setNovaValidade("2028-01-01"));
     await act(async () => {
       await result.current.salvarValidade("1");
     });
-    expect(alertSpy).toHaveBeenCalledWith("Falha na atualização");
-    alertSpy.mockRestore();
+    expect(toast.error).toHaveBeenCalledWith("Falha na atualização", expect.any(Object));
   });
 
   it("copiar copies to clipboard and sets copied state", async () => {

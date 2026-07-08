@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { api } from "@/services/api";
 import { friendlyError } from "@/lib/error-friendly";
+import { createTemplateSchema, type CreateTemplateData } from "@/lib/schemas";
 import type { Template } from "@/models/template";
 
 type TemplateLayoutConfig = {
@@ -29,9 +32,13 @@ export function useTemplatesViewModel() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const [saving, setSaving] = useState(false);
+
+  const addForm = useForm<CreateTemplateData>({
+    resolver: zodResolver(createTemplateSchema),
+    mode: "onBlur",
+    defaultValues: { name: "", description: "" },
+  });
   const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
   const [editName, setEditName] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -57,24 +64,20 @@ export function useTemplatesViewModel() {
     load();
   }, [loadKey]);
 
-  async function add(e: React.FormEvent) {
-    e.preventDefault();
+  async function add(data: CreateTemplateData) {
     setSaving(true);
     try {
       await api.createTemplate({
-        name,
-        description,
+        name: data.name,
+        description: data.description,
         layoutConfig: DEFAULT_LAYOUT,
       });
       toast.success("Template criado com sucesso!");
-      setName("");
-      setDescription("");
+      addForm.reset();
       setOpen(false);
       setLoadKey((k) => k + 1);
     } catch (err) {
-      toast.error(friendlyError(err), {
-        duration: Infinity,
-      });
+      toast.error(friendlyError(err), { duration: Infinity });
     } finally {
       setSaving(false);
     }
@@ -134,21 +137,18 @@ export function useTemplatesViewModel() {
     error,
     open,
     setOpen,
-    name,
-    description,
     saving,
     editingTemplate,
     editName,
     editDescription,
     layout,
     load,
-    add,
+    addForm,
+    add: addForm.handleSubmit(add),
     remove,
     startEditing,
     saveChanges,
     cancelEditing,
-    setName,
-    setDescription,
     setEditName,
     setEditDescription,
     setLayout,

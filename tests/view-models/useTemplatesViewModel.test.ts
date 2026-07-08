@@ -32,6 +32,13 @@ const mockTemplates = [
   },
 ];
 
+jest.mock("sonner", () => ({
+  toast: {
+    error: jest.fn(),
+    success: jest.fn(),
+  },
+}));
+
 jest.mock("../../src/services/api", () => ({
   api: {
     listTemplates: jest.fn(),
@@ -41,12 +48,12 @@ jest.mock("../../src/services/api", () => ({
   },
 }));
 
+import { toast } from "sonner";
 import { api } from "../../src/services/api";
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(window, "confirm").mockImplementation(() => true);
-  jest.spyOn(window, "alert").mockImplementation(() => {});
 });
 
 describe("useTemplatesViewModel", () => {
@@ -72,11 +79,11 @@ describe("useTemplatesViewModel", () => {
     const { result } = renderHook(() => useTemplatesViewModel());
     await waitFor(() => expect(result.current.loading).toBe(false));
     act(() => {
-      result.current.setName("Novo Template");
-      result.current.setDescription("Descrição");
+      result.current.addForm.setValue("name", "Novo Template");
+      result.current.addForm.setValue("description", "Descrição");
     });
     await act(async () => {
-      await result.current.add({ preventDefault: jest.fn() } as any);
+      await result.current.add();
     });
     expect(api.createTemplate).toHaveBeenCalledWith({
       name: "Novo Template",
@@ -85,22 +92,23 @@ describe("useTemplatesViewModel", () => {
         backgroundColor: "#FFFFFF",
       }),
     });
-    expect(result.current.name).toBe("");
-    expect(result.current.description).toBe("");
+    expect(result.current.addForm.getValues("name")).toBe("");
+    expect(result.current.addForm.getValues("description")).toBe("");
     expect(result.current.open).toBe(false);
   });
 
-  it("add shows alert on error", async () => {
+  it("add shows toast on error", async () => {
     (api.listTemplates as jest.Mock).mockResolvedValue(mockTemplates);
     (api.createTemplate as jest.Mock).mockRejectedValue(new Error("Falha ao criar"));
-    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
     const { result } = renderHook(() => useTemplatesViewModel());
     await waitFor(() => expect(result.current.loading).toBe(false));
-    await act(async () => {
-      await result.current.add({ preventDefault: jest.fn() } as any);
+    act(() => {
+      result.current.addForm.setValue("name", "Novo Template");
     });
-    expect(alertSpy).toHaveBeenCalledWith("Falha ao criar");
-    alertSpy.mockRestore();
+    await act(async () => {
+      await result.current.add();
+    });
+    expect(toast.error).toHaveBeenCalledWith("Falha ao criar", expect.any(Object));
   });
 
   it("remove calls deleteTemplate and reloads when confirmed", async () => {
@@ -125,17 +133,15 @@ describe("useTemplatesViewModel", () => {
     expect(api.deleteTemplate).not.toHaveBeenCalled();
   });
 
-  it("remove shows alert on error", async () => {
+  it("remove shows toast on error", async () => {
     (api.listTemplates as jest.Mock).mockResolvedValue(mockTemplates);
     (api.deleteTemplate as jest.Mock).mockRejectedValue(new Error("Falha ao remover"));
-    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
     const { result } = renderHook(() => useTemplatesViewModel());
     await waitFor(() => expect(result.current.loading).toBe(false));
     await act(async () => {
       await result.current.remove("1");
     });
-    expect(alertSpy).toHaveBeenCalledWith("Falha ao remover");
-    alertSpy.mockRestore();
+    expect(toast.error).toHaveBeenCalledWith("Falha ao remover", expect.any(Object));
   });
 
   it("startEditing sets editing state with template data", () => {
@@ -187,18 +193,16 @@ describe("useTemplatesViewModel", () => {
     expect(api.updateTemplate).not.toHaveBeenCalled();
   });
 
-  it("saveChanges shows alert on error", async () => {
+  it("saveChanges shows toast on error", async () => {
     (api.listTemplates as jest.Mock).mockResolvedValue(mockTemplates);
     (api.updateTemplate as jest.Mock).mockRejectedValue(new Error("Falha ao salvar"));
-    const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
     const { result } = renderHook(() => useTemplatesViewModel());
     await waitFor(() => expect(result.current.loading).toBe(false));
     act(() => result.current.startEditing(mockTemplates[0]));
     await act(async () => {
       await result.current.saveChanges();
     });
-    expect(alertSpy).toHaveBeenCalledWith("Falha ao salvar");
-    alertSpy.mockRestore();
+    expect(toast.error).toHaveBeenCalledWith("Falha ao salvar", expect.any(Object));
   });
 
   it("cancelEditing clears editingTemplate", () => {

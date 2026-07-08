@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { useEnviosViewModel } from "@/view-models/useEnviosViewModel";
 import { PageHeader } from "@/components/PageHeader";
 import { Mail, CheckCircle2, XCircle, Clock, SendHorizonal } from "lucide-react";
@@ -57,7 +59,8 @@ export function EnviosView() {
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-sm">{e.recipientEmail}</div>
                     <div className="text-xs text-muted-foreground mt-0.5">
-                      {e.recipientName} • {new Date(e.data).toLocaleString("pt-BR")}
+                      {e.recipientName} •{" "}
+                      {format(new Date(e.data), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
                     </div>
                   </div>
                   <div
