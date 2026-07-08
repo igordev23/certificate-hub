@@ -95,7 +95,10 @@ describe("useEditCertificateViewModel", () => {
 
   it("submit calls updateCertificate and navigates on success", async () => {
     (api.getCertificate as jest.Mock).mockResolvedValue(mockCertificate);
-    (api.updateCertificate as jest.Mock).mockResolvedValue({ ...mockCertificate, recipientName: "João Souza" });
+    (api.updateCertificate as jest.Mock).mockResolvedValue({
+      ...mockCertificate,
+      recipientName: "João Souza",
+    });
     const { result } = renderHook(() => useEditCertificateViewModel("cert-123"));
     await waitFor(() => expect(result.current.loading).toBe(false));
     act(() => result.current.form.setValue("recipientName", "João Souza"));
