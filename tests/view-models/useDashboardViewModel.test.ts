@@ -37,6 +37,9 @@ jest.mock("../../src/services/api", () => ({
     listCertificates: jest.fn(),
     listTemplates: jest.fn(),
   },
+}));
+
+jest.mock("../../src/models/certificate", () => ({
   isExpired: jest.fn(),
 }));
 
@@ -46,7 +49,8 @@ jest.mock("../../src/services/envios", () => ({
   },
 }));
 
-import { api, isExpired } from "../../src/services/api";
+import { api } from "../../src/services/api";
+import { isExpired } from "../../src/models/certificate";
 import { envios } from "../../src/services/envios";
 
 beforeEach(() => {

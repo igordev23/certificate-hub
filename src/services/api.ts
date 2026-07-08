@@ -1,5 +1,5 @@
 import { Template } from "@/models/template";
-import { Certificate } from "@/models/certificate";
+import { Certificate, isExpired } from "@/models/certificate";
 import type { VerifyResult } from "@/models/verify";
 
 const API_URL = process.env.VITE_API_URL || "http://localhost:3000";
@@ -65,9 +65,5 @@ export const api = {
       body: JSON.stringify({ cpf, verificationCode }),
     }),
 };
-
-export function isExpired(validityDate: string): boolean {
-  return new Date(validityDate) < new Date();
-}
 
 export type { Template, Certificate, VerifyResult };

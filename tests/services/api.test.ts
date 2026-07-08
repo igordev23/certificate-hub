@@ -1,4 +1,4 @@
-import { api, isExpired } from "../../src/services/api";
+import { api } from "../../src/services/api";
 
 const BASE_URL = process.env.VITE_API_URL || "http://localhost:3000";
 const mockFetch = jest.fn();
@@ -33,22 +33,6 @@ function mockJsonError() {
     json: () => Promise.reject(new Error("invalid json")),
   } as Response);
 }
-
-describe("isExpired", () => {
-  it("returns true for past date", () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("2026-06-10"));
-    expect(isExpired("2025-01-01")).toBe(true);
-    jest.useRealTimers();
-  });
-
-  it("returns false for future date", () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("2026-06-10"));
-    expect(isExpired("2027-01-01")).toBe(false);
-    jest.useRealTimers();
-  });
-});
 
 describe("api.http (via listTemplates)", () => {
   it("returns data from successful response using data field", async () => {
